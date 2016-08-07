@@ -1,5 +1,7 @@
 package org.khmeracademy.rest.pp.entity;
 
+import java.util.List;
+
 public class Restaurant {
 	private int id;
 	private String name;
@@ -10,9 +12,10 @@ public class Restaurant {
 	private String type;
 	private String district;
 	private String commune;
-	private String tel;
-	private String img;
-	private String menu;
+	private List<Telephone> telephone;
+	private List<Menu> menus;
+	private List<Images> images;
+	
 	public Restaurant(){
 		
 	}
@@ -28,9 +31,6 @@ public class Restaurant {
 		this.type = type;
 		this.district = district;
 		this.commune = commune;
-		this.tel = tel;
-		this.img = img;
-		this.menu = menu;
 	}
 	public int getId() {
 		return id;
@@ -80,29 +80,29 @@ public class Restaurant {
 	public void setCommune(String commune) {
 		this.commune = commune;
 	}
-	public String getTel() {
-		return tel;
-	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-	public String getImg() {
-		return img;
-	}
-	public void setImg(String img) {
-		this.img = img;
-	}
-	public String getMenu() {
-		return menu;
-	}
-	public void setMenu(String menu) {
-		this.menu = menu;
-	}
 	public String getDelivery() {
 		return delivery;
 	}
 	public void setDelivery(String delivery) {
 		this.delivery = delivery;
+	}
+	public List<Telephone> getTel() {
+		return telephone;
+	}
+	public void setTel(List<Telephone> tel) {
+		this.telephone = tel;
+	}
+	public List<Menu> getMenus() {
+		return menus;
+	}
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+	public List<Images> getImages() {
+		return images;
+	}
+	public void setImages(List<Images> images) {
+		this.images = images;
 	}
 	
 }

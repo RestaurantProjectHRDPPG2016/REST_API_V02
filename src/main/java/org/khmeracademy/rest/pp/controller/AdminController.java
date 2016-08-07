@@ -100,13 +100,12 @@ public class AdminController {
 		Map<String , Object> map = new HashMap<String , Object>();
 		
 		try{
-			if(restaurantService.save(restaurant)>0){
+			int id = restaurantService.save(restaurant);
+			
 				map.put("MESSAGE", "User has been inserted.");
 				map.put("STATUS", true);
-			}else{
-				map.put("MESSAGE", "User has not been inserted.");
-				map.put("STATUS", false);
-			}
+				map.put("ID", id);
+			
 		}catch(Exception e){
 			map.put("MESSAGE", "ERROR!");
 			map.put("STATUS", false);
