@@ -48,7 +48,8 @@ public interface RestaurantRepository {
 			+ "(naem,desc,delivery,home,street,type,district,commune) "
 			+ "VALUES"
 			+ " (#{name},#{desc},#{delivery},#{home},#{street},#{type},#{district},#{commune})") 
-    	@SelectKey(statement="SELECT nextVal('tbl_brand_brand_id_seq')", keyProperty="id", before=true, resultType=int.class) 
+    	@SelectKey(statement="SELECT nextVal('tbl_brand_brand_id_seq')",
+    	keyProperty="id", before=true, resultType=int.class) 
     	int insertMyObject_Annotation(Restaurant restaurant);
 	
 

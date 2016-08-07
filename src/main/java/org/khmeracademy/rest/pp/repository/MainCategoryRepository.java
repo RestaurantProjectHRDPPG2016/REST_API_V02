@@ -15,16 +15,17 @@ import org.springframework.stereotype.Repository;
 public interface MainCategoryRepository {
 	@Delete("DELETE FROM rest_categories WHERE c_id=#{id}")
 	boolean remove(int id);
-	@Update("UPDATE rest_categories SET c_name=#{name}, c_img1=#{img1},c_img2=#{img2} WHERE c_id=#{id}")
+	@Update("UPDATE rest_categories SET rest_type_id=#{t_id}, c_name=#{name}, img1=#{img1},img2=#{img2} WHERE c_id=#{id}")
 	boolean update(MainCategory mainCategory);
-	@Insert("INSERT INTO rest_categories (c_name,c_img1,c_img2) VALUES (#{name},#{img1},#{img2})")
+	@Insert("INSERT INTO rest_categories (rest_type_id,c_name,img1,img2) VALUES (#{t_id},#{name},#{img1},#{img2})")
 	boolean save(MainCategory mainCategory);
-	@Select("SELECT c_id,c_name,c_img1,c_img2 FROM rest_categories ORDER BY c_id DESC")
+	@Select("SELECT * FROM rest_categories ORDER BY c_id DESC")
 	@Results({
 		@Result(property="id",column="c_id"),
+		@Result(property="t_id",column="rest_type_id"),
 		@Result(property="name",column="c_name"),
-		@Result(property="img1",column="c_img1"),
-		@Result(property="img2",column="c_img2")
+		@Result(property="img1",column="img1"),
+		@Result(property="img2",column="img2")
 	})
 	ArrayList<MainCategory> findAll();
 }

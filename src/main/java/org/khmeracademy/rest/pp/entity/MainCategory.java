@@ -2,15 +2,17 @@ package org.khmeracademy.rest.pp.entity;
 
 public class MainCategory {
 	private int id;
+	private int t_id;
 	private String name;
 	private String img1;
 	private String img2;
 	public MainCategory(){
 		
 	}
-	public MainCategory(int id, String name, String img1, String img2) {
+	public MainCategory(int id,int t_id, String name, String img1, String img2) {
 		super();
 		this.id = id;
+		this.t_id=t_id;
 		this.name = name;
 		this.img1 = img1;
 		this.img2 = img2;
@@ -39,5 +41,12 @@ public class MainCategory {
 	public void setImg2(String img2) {
 		this.img2 = img2;
 	}
+	public int getT_id() {
+		return t_id;
+	}
+	public void setT_id(int t_id) {
+		this.t_id = t_id;
+	}
+	
 	
 }
