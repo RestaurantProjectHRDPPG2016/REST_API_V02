@@ -4,6 +4,7 @@ public class Restaurant {
 	private int id;
 	private String name;
 	private String desc;
+	private String delivery;
 	private String home;
 	private String street;
 	private String type;
@@ -15,12 +16,13 @@ public class Restaurant {
 	public Restaurant(){
 		
 	}
-	public Restaurant(int id, String name, String desc, String home, String street, String type, String district,
+	public Restaurant(int id, String name, String desc,String delivery, String home, String street, String type, String district,
 			String commune, String tel, String img, String menu) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
+		this.delivery = delivery;
 		this.home = home;
 		this.street = street;
 		this.type = type;
@@ -95,6 +97,12 @@ public class Restaurant {
 	}
 	public void setMenu(String menu) {
 		this.menu = menu;
+	}
+	public String getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 	
 }

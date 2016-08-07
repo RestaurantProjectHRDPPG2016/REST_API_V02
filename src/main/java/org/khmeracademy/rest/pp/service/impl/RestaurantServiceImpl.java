@@ -3,21 +3,22 @@ package org.khmeracademy.rest.pp.service.impl;
 import java.util.ArrayList;
 
 import org.khmeracademy.rest.pp.entity.Restaurant;
+import org.khmeracademy.rest.pp.repository.RestaurantRepository;
 import org.khmeracademy.rest.pp.service.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-	
+	@Autowired RestaurantRepository restaurantRepository;
 	@Override
 	public boolean remove(int id) {
-		// TODO Auto-generated method stub
-		return false;
+		return restaurantRepository.remove(id);
 	}
 
 	@Override
-	public boolean save(Restaurant restaurant) {
-		// TODO Auto-generated method stub
-		return false;
+	
+	public int save(Restaurant restaurant) {
+		return restaurantRepository.insertMyObject_Annotation(restaurant);
 	}
 
 	@Override
