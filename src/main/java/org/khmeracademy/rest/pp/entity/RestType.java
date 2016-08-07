@@ -23,5 +23,4 @@ public class RestType {
 	public void setName(String name) {
 		this.name = name;
 	}
-//	HEloo java
 }
