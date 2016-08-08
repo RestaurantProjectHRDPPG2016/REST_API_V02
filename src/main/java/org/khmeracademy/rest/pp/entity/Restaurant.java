@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Restaurant {
 	private int id;
+	private int sub_id;
 	private String name;
 	private String desc;
 	private String delivery;
@@ -19,10 +20,11 @@ public class Restaurant {
 	public Restaurant(){
 		
 	}
-	public Restaurant(int id, String name, String desc,String delivery, String home, String street, String type, String district,
+	public Restaurant(int id,int sub_id, String name, String desc,String delivery, String home, String street, String type, String district,
 			String commune, String tel, String img, String menu) {
 		super();
 		this.id = id;
+		this.sub_id = sub_id;
 		this.name = name;
 		this.desc = desc;
 		this.delivery = delivery;
@@ -103,6 +105,12 @@ public class Restaurant {
 	}
 	public void setImages(List<Images> images) {
 		this.images = images;
+	}
+	public int getSub_id() {
+		return sub_id;
+	}
+	public void setSub_id(int sub_id) {
+		this.sub_id = sub_id;
 	}
 	
 }

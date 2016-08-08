@@ -20,11 +20,18 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public int save(Restaurant restaurant) {
 		restaurantRepository.insertMyObject_Annotation(restaurant);
 		
-		restaurantRepository.insertBatch(restaurant.getMenus(), restaurant.getId());
-
-		restaurantRepository.insertBatch1(restaurant.getImages(), restaurant.getId());
+		System.out.println(restaurant.getId());
 		
-		restaurantRepository.insertBatch2(restaurant.getTel(),restaurant.getId());
+		
+		//System.out.println(restaurant.getTel().get(0).getTel() + "");
+		try{
+			restaurantRepository.insertBatch2(restaurant.getTel(), restaurant.getId());
+			restaurantRepository.insertBatch(restaurant.getMenus(), restaurant.getId());
+
+			restaurantRepository.insertBatch1(restaurant.getImages(), restaurant.getId());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		return 1;
 	}
 

@@ -99,8 +99,6 @@ public class AdminController {
 	public ResponseEntity<Map<String , Object>> saveRestaurant(@RequestBody Restaurant restaurant){
 		Map<String , Object> map = new HashMap<String , Object>();
 		
-		System.out.println("====> " + restaurant);
-		
 		try{
 			int id = restaurantService.save(restaurant);
 			
