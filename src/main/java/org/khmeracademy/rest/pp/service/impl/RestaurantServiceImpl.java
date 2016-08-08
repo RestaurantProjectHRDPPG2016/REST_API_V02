@@ -18,7 +18,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	
 	public int save(Restaurant restaurant) {
-		return restaurantRepository.insertMyObject_Annotation(restaurant);
+		restaurantRepository.insertMyObject_Annotation(restaurant);
+		
+		restaurantRepository.insertBatch(restaurant.getMenus(), restaurant.getId());
+
+		restaurantRepository.insertBatch1(restaurant.getImages(), restaurant.getId());
+		restaurantRepository.insertBatch2(restaurant.getTel(),restaurant.getId());
+		return 1;
 	}
 
 	@Override
