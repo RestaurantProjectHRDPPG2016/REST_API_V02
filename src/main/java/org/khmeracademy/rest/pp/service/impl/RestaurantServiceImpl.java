@@ -23,6 +23,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		restaurantRepository.insertBatch(restaurant.getMenus(), restaurant.getId());
 
 		restaurantRepository.insertBatch1(restaurant.getImages(), restaurant.getId());
+		
 		restaurantRepository.insertBatch2(restaurant.getTel(),restaurant.getId());
 		return 1;
 	}

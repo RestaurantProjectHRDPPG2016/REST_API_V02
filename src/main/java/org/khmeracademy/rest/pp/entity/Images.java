@@ -4,8 +4,10 @@ public class Images {
 	private int id;
 	private int r_id;
 	private String url;
+	public Images(){
+		
+	}
 	public Images(int id, int r_id, String url) {
-		super();
 		this.id = id;
 		this.r_id = r_id;
 		this.url = url;
