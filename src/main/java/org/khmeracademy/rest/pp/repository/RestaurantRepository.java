@@ -48,7 +48,7 @@ public interface RestaurantRepository {
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
     int insertMyObject_Annotation(Restaurant restaurant);
-	
+
 	final String Menus  = "<script>"
 			+ "		INSERT INTO rest_menu (rest_id, "
 			+ "								 name, "
@@ -128,9 +128,27 @@ public interface RestaurantRepository {
 	@Update(updateTelephones)
 	boolean updateBatch2(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
 	
-	@Select("SELECT * FROM rest_rest_image Rest "
+//	selest
+	
+	@Select("SELECT "
+			+ "Rest.rest_id,"
+			+ "Rest.sub_id Sub_ID,"
+			+"Rest.name Name,"
+			+"Rest.description,"
+			+"Rest.delivery,"
+			+"Rest.home,"
+			+"Rest.street,"
+			+"Rest.district,"
+			+"Rest.commune"
+			+ " FROM rest_restaurant Rest "
 			+"INNER JOIN rest_rest_image Image ON Image.rest_id = Rest.rest_id"
 			+"INNER JOIN rest_menu Menu ON Menu.rest_id = Rest.rest_id"
 			+"INNER JOIN rest_telephone Tel ON Tel.rest_id = Rest.rest_id")
+//	@Results({
+//		@Result(property="id",column="rest_id"),
+//		@Result(property="i")
+//		@Result(property="name",column="name"),
+//	})
 	ArrayList<Restaurant> findAll();
+//	end select
 }
