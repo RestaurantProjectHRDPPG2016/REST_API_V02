@@ -88,8 +88,4 @@ public class RestaurantController {
 		map.put("DATA", Restaurant);
 		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
-//	REST
-	
-//	
-//	askdfasdf
 }
