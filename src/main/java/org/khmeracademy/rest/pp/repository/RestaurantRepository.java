@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -131,24 +132,61 @@ public interface RestaurantRepository {
 //	selest
 	
 	@Select("SELECT "
-			+ "Rest.rest_id,"
-			+ "Rest.sub_id Sub_ID,"
-			+"Rest.name Name,"
-			+"Rest.description,"
-			+"Rest.delivery,"
-			+"Rest.home,"
-			+"Rest.street,"
-			+"Rest.district,"
-			+"Rest.commune"
+			+ "Rest.rest_id, "
+			+ "Rest.sub_cat_id, "
+			+ "Rest.name, "
+			+ "Rest.description, "
+			+ "Rest.delivery, "
+			+ "Rest.home, "
+			+ "Rest.street, "
+			+ "Rest.district, "
+			+ "Rest.commune "
 			+ " FROM rest_restaurant Rest "
-			+"INNER JOIN rest_rest_image Image ON Image.rest_id = Rest.rest_id"
-			+"INNER JOIN rest_menu Menu ON Menu.rest_id = Rest.rest_id"
-			+"INNER JOIN rest_telephone Tel ON Tel.rest_id = Rest.rest_id")
-//	@Results({
-//		@Result(property="id",column="rest_id"),
-//		@Result(property="i")
-//		@Result(property="name",column="name"),
-//	})
+			+ "INNER JOIN rest_rest_image Image ON Image.rest_id = Rest.rest_id "
+			+ "INNER JOIN rest_menu Menu ON Menu.rest_id = Rest.rest_id "
+			+ "INNER JOIN rest_telephone Tel ON Tel.rest_id = Rest.rest_id")
+	@Results({
+		@Result(property="id",column="rest_id"),
+		@Result(property="sub_id",column="sub_cat_id"),
+		@Result(property="name",column="name"),
+		@Result(property="desc",column="description"),
+		@Result(property="delivery",column="delivery"),
+		@Result(property="home",column="home"),
+		@Result(property="street",column="street"),
+		@Result(property="district",column="district"),
+		@Result(property="commune",column="commune"),
+		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
+		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findMenu"))
+	})
 	ArrayList<Restaurant> findAll();
+	
+	@Select("SELECT rest_img_id,rest_id, url FROM rest_rest_image WHERE rest_id=#{rest_id}")
+	@Results(value = {
+		@Result(property="id" , column="rest_img_id"),
+		@Result(property="r_id" , column="rest_id"),
+		@Result(property="url" , column="url")
+	})
+	public List<Images> findImage( int rest_id);
+	
+	
+	@Select("SELECT menu_id,rest_id,name, url FROM rest_menu WHERE rest_id=#{rest_id}")
+	@Results(value = {
+		@Result(property="id" , column="menu_id"),
+		@Result(property="r_id" , column="rest_id"),
+		@Result(property="name", column="name"),
+		@Result(property="url" , column="url")
+	})
+	public List<Menu> findMenu( int rest_id);
+	
+	@Select("SELECT tel_id,rest_id,telephone FROM rest_telephone WHERE rest_id=#{rest_id}")
+	@Results(value = {
+		@Result(property="id" , column="menu_id"),
+		@Result(property="r_id" , column="rest_id"),
+		@Result(property="tel", column="telephone")
+	})
+	public List<Telephone> findTelephone( int rest_id);
+	
+	
 //	end select
 }

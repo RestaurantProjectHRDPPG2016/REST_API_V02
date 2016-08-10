@@ -65,8 +65,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	public ArrayList<Restaurant> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return restaurantRepository.findAll();
 	}
+	
 
 }
