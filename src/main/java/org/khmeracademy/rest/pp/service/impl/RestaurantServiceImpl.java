@@ -12,7 +12,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Autowired RestaurantRepository restaurantRepository;
 	@Override
 	public boolean remove(int id) {
-		return restaurantRepository.remove(id);
+		restaurantRepository.deleteMyObject_Annotation(id);
+		try{
+			 restaurantRepository.deleteBatch(id);
+			 restaurantRepository.deleteBatch1(id);
+			 restaurantRepository.deleteBatch2(id);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
@@ -36,9 +45,22 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public boolean update(Restaurant retaurant) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Restaurant restaurant) {
+		restaurantRepository.updateMyObject_Annotation(restaurant);
+		
+		System.out.println(restaurant.getId());
+		
+		
+		//System.out.println(restaurant.getTel().get(0).getTel() + "");
+		try{
+			restaurantRepository.updateBatch2(restaurant.getTel(), restaurant.getId());
+			restaurantRepository.updateBatch(restaurant.getMenus(), restaurant.getId());
+
+			restaurantRepository.updatetBatch1(restaurant.getImages(), restaurant.getId());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	@Override
