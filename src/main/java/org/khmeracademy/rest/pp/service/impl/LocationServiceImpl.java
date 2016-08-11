@@ -16,27 +16,23 @@ public class LocationServiceImpl implements LocationService {
 	
 	@Override
 	public ArrayList<Location> findAllLocation() {
-		locationRepository.findAllLocation();
-		return null;
+		return locationRepository.findAllLocation();
 	}
 
-	@Override
-	public boolean saveLocation(Location location) {
-		locationRepository.saveLocation(location);
-		return false;
-	}
-
-	@Override
-	public boolean deleteLocation(int id) {
-		locationRepository.deleteLocation(id);
-		return false;
-	}
-
-	@Override
-	public boolean updateLocation(Location location) {
-		locationRepository.updateLocation(location);
-		return false;
-	}
+//	@Override
+//	public boolean saveLocation(Location location) {
+//		return locationRepository.saveLocation(location);
+//	}
+//
+//	@Override
+//	public boolean deleteLocation(int id) {
+//		return locationRepository.deleteLocation(id);
+//	}
+//
+//	@Override
+//	public boolean updateLocation(Location location) {
+//		return locationRepository.updateLocation(location);
+//	}
 
 	
 	

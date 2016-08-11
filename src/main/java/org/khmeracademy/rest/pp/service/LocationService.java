@@ -8,13 +8,14 @@ public interface LocationService {
 	
 //	GET LOCATION
 	ArrayList<Location> findAllLocation();
-	
-// SAVE LOCATION
-	boolean saveLocation(Location location);
-	
-// DELETE LOCATION
-	boolean deleteLocation(int id);
-	
-//	UPDATE LOCATION
-	boolean updateLocation(Location location);
+//	
+//// SAVE LOCATION
+//	boolean saveLocation(Location location);
+//	
+//// DELETE LOCATION
+//	boolean deleteLocation(int id);
+//	
+////	UPDATE LOCATION
+//	boolean updateLocation(Location location);
+
 }

@@ -13,6 +13,10 @@ public class Location {
 	private String checker_note;
 	private int parent_id;
 	
+	public Location(){
+		
+	}
+	
 	public Location(int id, String type, int type_code, int code, String khmer_name, String english_name,
 			String reference, String official_note, String checker_note, int parent_id) {
 		super();
