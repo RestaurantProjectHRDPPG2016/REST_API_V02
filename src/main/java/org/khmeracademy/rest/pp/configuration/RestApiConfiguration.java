@@ -58,4 +58,7 @@ public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 				.allowedMethods("GET","POST","DELETE","PUT","OPTIONS","PATCH")
 				.allowedOrigins("*");
 	}
+
+
+   
 }

@@ -26,20 +26,12 @@ import springfox.documentation.annotations.ApiIgnore;
 public class RestaurantController {
 	@Autowired
 	private RestaurantService restaurantService;
-	
 	@RequestMapping(value="/restaurant" , method = RequestMethod.POST)
-	@ApiImplicitParams({
-		    @ApiImplicitParam(name = "name", value = "Restaurant's name", required = true, dataType = "string", paramType = "query"),
-		    @ApiImplicitParam(name = "description", value = "Restaurant's description", required = false, dataType = "string", paramType = "query"),
-		    @ApiImplicitParam(name = "menuImage", value = "Restaurant's Menu Image", required = false, dataType = "file", paramType = "body"),
-		    @ApiImplicitParam(name = "telephones", value = "Restaurant's Telephone", required = false, dataType = "array", paramType = "query"),
-	})
-	
-	public ResponseEntity<Map<String , Object>> saveRestaurant(@ApiIgnore UploadRest uploadRest, @ApiIgnore HttpServletRequest request){
+	public ResponseEntity<Map<String , Object>> saveRestaurant(@RequestBody Restaurant restaurant){
 		Map<String , Object> map = new HashMap<String , Object>();
 		
 		try{
-			int id = restaurantService.save(uploadRest,request);
+			int id = restaurantService.save(restaurant);
 			
 				map.put("MESSAGE", "User has been inserted.");
 				map.put("STATUS", true);
@@ -53,7 +45,6 @@ public class RestaurantController {
 		System.out.println(this);
 		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
 	}
-	
 	@RequestMapping(value="/restaurant/{id}" , method = RequestMethod.DELETE )
 		public ResponseEntity<Map<String,Object>> delelteCategory(@PathVariable("id") int id){
 		Map<String , Object> map = new HashMap<String , Object>();

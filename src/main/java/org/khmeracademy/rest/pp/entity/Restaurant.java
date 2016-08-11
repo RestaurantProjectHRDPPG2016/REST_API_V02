@@ -68,7 +68,7 @@ public class Restaurant {
 		return type;
 	}
 	public void setType(String type) {
-		this.type =type ;
+		this.type = type;
 	}
 	public String getDistrict() {
 		return district;
@@ -112,5 +112,5 @@ public class Restaurant {
 	public void setSub_id(int sub_id) {
 		this.sub_id = sub_id;
 	}
-	
+		
 }

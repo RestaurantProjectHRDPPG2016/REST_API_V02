@@ -29,15 +29,15 @@ public interface RestaurantRepository {
 	
 	String DeleteMenu = "DELETE FROM rest_menu WHERE rest_id=#{my_id}";
 	@Delete(DeleteMenu)
-	boolean deleteBatch(@Param("my_id") int r_id);
+	boolean deleteMenu(@Param("my_id") int r_id);
 	
 	String DeleteImage = "DELETE FROM rest_rest_image WHERE rest_id=#{my_id}";
 	@Delete(DeleteImage)
-	boolean deleteBatch1(@Param("my_id") int r_id);
+	boolean deleteImage(@Param("my_id") int r_id);
 	
 	String DeleteTelephone = "DELETE FROM rest_telephone WHERE rest_id=#{my_id}";
 	@Delete(DeleteTelephone)
-	boolean deleteBatch2(@Param("my_id") int r_id);
+	boolean deleteTelephone(@Param("my_id") int r_id);
 //	
 //	INSERT
 	@Insert("INSERT INTO rest_restaurant "
@@ -51,25 +51,26 @@ public interface RestaurantRepository {
 
 	final String Menus  = "<script>"
 			+ "		INSERT INTO rest_menu (rest_id, "
+			+ "								 name, "
 			+ "								url)"
 			+ "		VALUES "
-			+ "			<foreach  collection='menuUrls' item='url' separator=','>"
-			+ "				(#{my_id}, #{url})"
+			+ "			<foreach  collection='menus' item='menu' separator=','>"
+			+ "				(#{my_id}, #{menu.name}, #{menu.url})"
 			+ "			</foreach>"
 			+ "</script>";
 	@Insert(Menus)
-	boolean insertMenu(@Param("menuUrls") List<String> menuUrls, @Param("my_id") int r_id);	
+	boolean insertMenu(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
 	
 	final String Images = "<script> "
 			+ "		INSERT INTO rest_rest_image (rest_id, "
 			+ "								 url) "
 			+ "		VALUES "
-			+ "			<foreach  collection='imageUrls' item='url' separator=','>"
-			+ "				(#{my_id}, #{url})"
+			+ "			<foreach  collection='images' item='image' separator=','>"
+			+ "				(#{my_id}, #{image.url})"
 			+ "			</foreach>"
 			+ "</script>";
 	@Insert(Images)
-	boolean insertImage(@Param("imageUrls") List<String> imageUrls,@Param("my_id") int r_id);
+	boolean insertImage(@Param("images") List<Images> images,@Param("my_id") int r_id);
 	
 	
 	final String Telephones = "<script> "
@@ -103,7 +104,7 @@ public interface RestaurantRepository {
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateMenus)
-	boolean updateBatch(@Param("menus") List<Menu> menus, @Param("my_id") int r_id);	
+	boolean updateMenu(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
 	
 	
 	final String updateImage  = "<script>"
@@ -114,7 +115,7 @@ public interface RestaurantRepository {
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateImage)
-	boolean updatetBatch1(@Param("images") List<Images> images, @Param("my_id") int r_id);
+	boolean updatetImage(@Param("images") List<Images> images,@Param("my_id") int r_id);
 	
 	
 	final String updateTelephones = "<script> "
@@ -122,10 +123,10 @@ public interface RestaurantRepository {
 							+ "		UPDATE rest_telephone"
 							+ " 			rest_id=#{my_id},"
 							+ "			telephone=#{telephone.tel})"
-							+ "	</foreach>"
+							+ "			</foreach>"
 							+ "</script>";
 	@Update(updateTelephones)
-	boolean updateBatch2(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
+	boolean updateTelephone(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
 	
 //	selest
 	
@@ -172,18 +173,18 @@ public interface RestaurantRepository {
 	@Results(value = {
 		@Result(property="id" , column="menu_id"),
 		@Result(property="r_id" , column="rest_id"),
+		@Result(property="name", column="name"),
 		@Result(property="url" , column="url")
 	})
 	public List<Menu> findMenu( int rest_id);
 	
 	@Select("SELECT tel_id,rest_id,telephone FROM rest_telephone WHERE rest_id=#{rest_id}")
 	@Results(value = {
-		@Result(property="id" , column="tel_id"),
+		@Result(property="id" , column="menu_id"),
 		@Result(property="r_id" , column="rest_id"),
 		@Result(property="tel", column="telephone")
 	})
-	public List<Telephone> findTelephone(int rests_id);
-	
+	public List<Telephone> findTelephone( int rest_id);
 	
 //	end select
 }

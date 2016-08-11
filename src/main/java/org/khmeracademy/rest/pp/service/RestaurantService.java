@@ -9,7 +9,7 @@ import org.khmeracademy.rest.pp.entity.UploadRest;
 
 public interface RestaurantService {
 	boolean remove(int id);
-	int save(UploadRest uploadRest, HttpServletRequest request);
+	int save(Restaurant restaurant);
 	boolean update(Restaurant retaurant);
 	ArrayList<Restaurant> findAll();
 }
