@@ -46,6 +46,7 @@ public class RestApiConfiguration extends WebMvcConfigurerAdapter {
         return multipartResolver;
 	}
 	
+	
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactoryBean(){
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
