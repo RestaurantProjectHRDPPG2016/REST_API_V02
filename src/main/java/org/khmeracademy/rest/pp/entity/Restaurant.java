@@ -68,7 +68,7 @@ public class Restaurant {
 		return type;
 	}
 	public void setType(String type) {
-		this.type = type;
+		this.type =type ;
 	}
 	public String getDistrict() {
 		return district;

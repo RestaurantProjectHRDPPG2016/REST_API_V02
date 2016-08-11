@@ -14,7 +14,6 @@ import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.khmeracademy.rest.pp.entity.Images;
 import org.khmeracademy.rest.pp.entity.Menu;
-import org.khmeracademy.rest.pp.entity.RestType;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.Telephone;
 import org.springframework.stereotype.Repository;
@@ -52,26 +51,25 @@ public interface RestaurantRepository {
 
 	final String Menus  = "<script>"
 			+ "		INSERT INTO rest_menu (rest_id, "
-			+ "								 name, "
 			+ "								url)"
 			+ "		VALUES "
-			+ "			<foreach  collection='menus' item='menu' separator=','>"
-			+ "				(#{my_id}, #{menu.name}, #{menu.url})"
+			+ "			<foreach  collection='menuUrls' item='url' separator=','>"
+			+ "				(#{my_id}, #{url})"
 			+ "			</foreach>"
 			+ "</script>";
 	@Insert(Menus)
-	boolean insertBatch(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
+	boolean insertMenu(@Param("menuUrls") List<String> menuUrls, @Param("my_id") int r_id);	
 	
 	final String Images = "<script> "
 			+ "		INSERT INTO rest_rest_image (rest_id, "
 			+ "								 url) "
 			+ "		VALUES "
-			+ "			<foreach  collection='images' item='image' separator=','>"
-			+ "				(#{my_id}, #{image.url})"
+			+ "			<foreach  collection='imageUrls' item='url' separator=','>"
+			+ "				(#{my_id}, #{url})"
 			+ "			</foreach>"
 			+ "</script>";
 	@Insert(Images)
-	boolean insertBatch1(@Param("images") List<Images> images,@Param("my_id") int r_id);
+	boolean insertImage(@Param("imageUrls") List<String> imageUrls,@Param("my_id") int r_id);
 	
 	
 	final String Telephones = "<script> "
@@ -83,7 +81,7 @@ public interface RestaurantRepository {
 							+ "			</foreach>"
 							+ "</script>";
 	@Insert(Telephones)
-	boolean insertBatch2(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
+	boolean insertTelephone(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
 	
 //	
 //	Update 
@@ -105,7 +103,7 @@ public interface RestaurantRepository {
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateMenus)
-	boolean updateBatch(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
+	boolean updateBatch(@Param("menus") List<Menu> menus, @Param("my_id") int r_id);	
 	
 	
 	final String updateImage  = "<script>"
@@ -116,7 +114,7 @@ public interface RestaurantRepository {
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateImage)
-	boolean updatetBatch1(@Param("images") List<Images> images,@Param("my_id") int r_id);
+	boolean updatetBatch1(@Param("images") List<Images> images, @Param("my_id") int r_id);
 	
 	
 	final String updateTelephones = "<script> "
@@ -124,7 +122,7 @@ public interface RestaurantRepository {
 							+ "		UPDATE rest_telephone"
 							+ " 			rest_id=#{my_id},"
 							+ "			telephone=#{telephone.tel})"
-							+ "			</foreach>"
+							+ "	</foreach>"
 							+ "</script>";
 	@Update(updateTelephones)
 	boolean updateBatch2(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
@@ -157,7 +155,7 @@ public interface RestaurantRepository {
 		@Result(property="commune",column="commune"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findMenu"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
 	ArrayList<Restaurant> findAll();
 	
@@ -174,18 +172,17 @@ public interface RestaurantRepository {
 	@Results(value = {
 		@Result(property="id" , column="menu_id"),
 		@Result(property="r_id" , column="rest_id"),
-		@Result(property="name", column="name"),
 		@Result(property="url" , column="url")
 	})
 	public List<Menu> findMenu( int rest_id);
 	
 	@Select("SELECT tel_id,rest_id,telephone FROM rest_telephone WHERE rest_id=#{rest_id}")
 	@Results(value = {
-		@Result(property="id" , column="menu_id"),
+		@Result(property="id" , column="tel_id"),
 		@Result(property="r_id" , column="rest_id"),
 		@Result(property="tel", column="telephone")
 	})
-	public List<Telephone> findTelephone( int rest_id);
+	public List<Telephone> findTelephone(int rests_id);
 	
 	
 //	end select
