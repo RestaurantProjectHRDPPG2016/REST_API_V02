@@ -66,7 +66,7 @@ public class UploadFile {
 	public String UploadFiles(MultipartFile file, String savePath,String url,String fileName) {
 		
 		String filename = file.getOriginalFilename();
-		String pathAndFileName="/resources/upload/file/"+url;
+		String pathAndFileName="/resources/upload/playlist/";
 		if (!file.isEmpty()) {
 			try {				
 
