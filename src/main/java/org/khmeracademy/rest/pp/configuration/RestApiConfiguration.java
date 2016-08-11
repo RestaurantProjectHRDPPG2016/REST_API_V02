@@ -38,6 +38,7 @@ public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 	
+	
 	@Bean
     public MultipartResolver multipartResolver() {
         org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
