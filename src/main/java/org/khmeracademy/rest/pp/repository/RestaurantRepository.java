@@ -41,7 +41,7 @@ public interface RestaurantRepository {
 //	
 //	INSERT
 	@Insert("INSERT INTO rest_restaurant "
-			+ "(sub_cat_id,name,description,delivery,home,street,district,commune) "
+			+ "(c_id,name,description,delivery,home,street,district,commune) "
 			+ "VALUES"
 			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{district},#{commune})") 
     
@@ -88,7 +88,7 @@ public interface RestaurantRepository {
 //	Update 
 	
 	@Update("UPDATE rest_restaurant SET"
-			+ "(sub_cat_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},district=#{district},commune=#{commune} "
+			+ "(c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},district=#{district},commune=#{commune} "
 			+ "WHERE rest_id=#{my_id) ")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
@@ -132,7 +132,7 @@ public interface RestaurantRepository {
 	
 	@Select("SELECT "
 			+ "Rest.rest_id, "
-			+ "Rest.sub_cat_id, "
+			+ "Rest.c_id, "
 			+ "Rest.name, "
 			+ "Rest.description, "
 			+ "Rest.delivery, "
@@ -146,7 +146,7 @@ public interface RestaurantRepository {
 			+ "INNER JOIN rest_telephone Tel ON Tel.rest_id = Rest.rest_id")
 	@Results({
 		@Result(property="id",column="rest_id"),
-		@Result(property="sub_id",column="sub_cat_id"),
+		@Result(property="sub_id",column="c_id"),
 		@Result(property="name",column="name"),
 		@Result(property="desc",column="description"),
 		@Result(property="delivery",column="delivery"),
