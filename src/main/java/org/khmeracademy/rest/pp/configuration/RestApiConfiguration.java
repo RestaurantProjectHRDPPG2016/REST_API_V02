@@ -24,28 +24,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @MapperScan("org.khmeracademy.rest.pp.repository")
-//@EnableWebMvc
 @EnableSwagger2
 public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
 	
-	@Bean
-	public ViewResolver viewRsolver(){
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/");
-		resolver.setSuffix(".jsp");
-		return resolver;
-}
-	
-	@Bean
-    public MultipartResolver multipartResolver() {
-        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-        //multipartResolver.setMaxUploadSize(2097152);
-        multipartResolver.setMaxUploadSize(5242880);
-        return multipartResolver;
-	}
-	
+
+
 	
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactoryBean(){
