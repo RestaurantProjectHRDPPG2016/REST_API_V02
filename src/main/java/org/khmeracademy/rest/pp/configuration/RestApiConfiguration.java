@@ -25,18 +25,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 @MapperScan("org.khmeracademy.rest.pp.repository")
-@EnableWebMvc
 public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
 	private DataSource dataSource;
-	
-	@Bean
-	public ViewResolver viewRsolver(){
-		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setPrefix("/WEB-INF/");
-		resolver.setSuffix(".jsp");
-		return resolver;
-	}
 	
 	
 	@Bean
