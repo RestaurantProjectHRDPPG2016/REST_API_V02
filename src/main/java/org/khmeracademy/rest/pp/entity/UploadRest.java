@@ -13,10 +13,18 @@ public class UploadRest {
 	private String homenumber;
 	private String street;
 	private String type;
+	
 	private List<Telephone> telephone;
 	private List<MultipartFile> menus;
 	private List<MultipartFile> image;
+	private List<String> telephones;
 	
+	public List<String> getTelephones() {
+		return telephones;
+	}
+	public void setTelephones(List<String> telephones) {
+		this.telephones = telephones;
+	}
 	public UploadRest(){
 		
 	}
@@ -102,5 +110,14 @@ public class UploadRest {
 	public void setImage(List<MultipartFile> image) {
 		this.image = image;
 	}
+	@Override
+	public String toString() {
+		return "UploadRest [name=" + name + ", description=" + description + ", delivery=" + delivery + ", district="
+				+ district + ", commune=" + commune + ", homenumber=" + homenumber + ", street=" + street + ", type="
+				+ type + ", telephone=" + telephone + ", menus=" + menus + ", image=" + image + ", telephones="
+				+ telephones + "]";
+	}
+	
+	
 	
 }

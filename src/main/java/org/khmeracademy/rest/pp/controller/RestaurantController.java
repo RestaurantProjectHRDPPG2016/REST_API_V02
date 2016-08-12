@@ -6,8 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.khmeracademy.rest.pp.entity.RestImgFile;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.UploadRest;
+import org.khmeracademy.rest.pp.service.FileUploadService;
 import org.khmeracademy.rest.pp.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,24 +20,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import springfox.documentation.annotations.ApiIgnore;
-
 @RestController
 public class RestaurantController {
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	FileUploadService fileUploadService;
+	
 	@RequestMapping(value="/restaurant" , method = RequestMethod.POST)
-	public ResponseEntity<Map<String , Object>> saveRestaurant(@RequestBody Restaurant restaurant){
+	public ResponseEntity<Map<String , Object>> saveRestaurant(UploadRest uploadRest, HttpServletRequest request){
+		System.out.println(uploadRest);
+		RestImgFile restImage = fileUploadService.upload(uploadRest.getImage(), "Restaurant_Image", request);
+		for (String str  : restImage.getNames()) {
+			System.out.println(restImage.getServerPath()+ restImage.getProjectPath() + str);
+		}
+		
 		Map<String , Object> map = new HashMap<String , Object>();
 		
 		try{
-			int id = restaurantService.save(restaurant);
+			//int id = restaurantService.save(restaurant);
 			
 				map.put("MESSAGE", "User has been inserted.");
 				map.put("STATUS", true);
-				map.put("ID", id);
+				//map.put("ID", id);
 			
 		}catch(Exception e){
 			map.put("MESSAGE", "ERROR!");

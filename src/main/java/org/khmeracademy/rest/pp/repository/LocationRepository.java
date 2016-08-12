@@ -29,17 +29,20 @@ public interface LocationRepository {
 
 	@Select("SELECT"
 					+"khmer_name"
-					+" FROM rest_location")
+					+" FROM rest_locations"
+					+"where type_code='0'")
 			ArrayList<Location> findProvince();
 
 	@Select("SELECT"
 			+"khmer_name"
-			+" FROM rest_location")
+			+" FROM rest_location"
+			+" WHERE type_code='1'")
 		ArrayList<Location> findDistrict();
 
 	@Select("SELECT"
 		+"khmer_name"
-		+" FROM rest_location")
+		+" FROM rest_location"
+		+" WHERE type_code='2'")
 		ArrayList<Location> findCommune();
 
 }
