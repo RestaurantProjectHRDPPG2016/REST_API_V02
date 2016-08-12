@@ -24,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @MapperScan("org.khmeracademy.rest.pp.repository")
-@EnableWebMvc
+//@EnableWebMvc
 @EnableSwagger2
 public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
