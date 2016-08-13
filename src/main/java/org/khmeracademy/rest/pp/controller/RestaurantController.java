@@ -2,12 +2,16 @@ package org.khmeracademy.rest.pp.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.khmeracademy.rest.pp.entity.Images;
+import org.khmeracademy.rest.pp.entity.Menu;
 import org.khmeracademy.rest.pp.entity.RestImgFile;
 import org.khmeracademy.rest.pp.entity.Restaurant;
+import org.khmeracademy.rest.pp.entity.Telephone;
 import org.khmeracademy.rest.pp.entity.UploadRest;
 import org.khmeracademy.rest.pp.service.FileUploadService;
 import org.khmeracademy.rest.pp.service.RestaurantService;
@@ -30,17 +34,52 @@ public class RestaurantController {
 	
 	@RequestMapping(value="/restaurant" , method = RequestMethod.POST)
 	public ResponseEntity<Map<String , Object>> saveRestaurant(UploadRest uploadRest, HttpServletRequest request){
-		System.out.println(uploadRest);
-		RestImgFile restImage = fileUploadService.upload(uploadRest.getImage(), "Restaurant_Image", request);
-		for (String str  : restImage.getNames()) {
-			System.out.println(restImage.getServerPath()+ restImage.getProjectPath() + str);
-		}
 		
 		Map<String , Object> map = new HashMap<String , Object>();
+		try{
+		System.out.println(uploadRest);
+		RestImgFile restImage = fileUploadService.upload(uploadRest.getImage(), "Restaurant_Image", request);
+		List<Menu> menus = new ArrayList<>();
+		
+		for (String str  : restImage.getNames()) {
+			System.out.println(restImage.getProjectPath() + str);
+			Menu m = new Menu(0, 0, null, restImage.getProjectPath() + str);
+			menus.add(m);
+		}
+		List<Images> images = new ArrayList<>();
+		
+		RestImgFile menuImage = fileUploadService.upload(uploadRest.getMenus(), "Restaurant_Image",request);
+		for(String str1 : menuImage.getNames()){
+				System.out.println(menuImage.getProjectPath() + str1);
+				Images img = new Images();
+				img.setUrl(menuImage.getProjectPath() + str1);
+				images.add(img);
+		}
+		
+		List<Telephone> tels = new ArrayList<>();
+		for(String tel : uploadRest.getTelephones()){
+			Telephone telephone = new Telephone(0,0, tel);
+			tels.add(telephone);
+		}
+		
+		
+		Restaurant rest = new Restaurant();
+		rest.setName(uploadRest.getName());
+		rest.setDesc(uploadRest.getDescription());
+		rest.setDelivery(uploadRest.getDelivery());
+		rest.setCommune(uploadRest.getCommune());
+		rest.setDistrict(uploadRest.getDistrict());
+		rest.setHome(uploadRest.getHomenumber());
+		rest.setStreet(uploadRest.getStreet());
+		rest.setSub_id(uploadRest.getType());
+		rest.setTel(tels);
+		
+		
+		rest.setMenus(menus);
+		rest.setImages(images);
 		
 		try{
-			//int id = restaurantService.save(restaurant);
-			
+			int id = restaurantService.save(rest);
 				map.put("MESSAGE", "User has been inserted.");
 				map.put("STATUS", true);
 				//map.put("ID", id);
@@ -50,9 +89,14 @@ public class RestaurantController {
 			map.put("STATUS", false);
 			e.printStackTrace();
 		}
-		System.out.println(this);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
 	}
+	
+		
 	@RequestMapping(value="/restaurant/{id}" , method = RequestMethod.DELETE )
 		public ResponseEntity<Map<String,Object>> delelteCategory(@PathVariable("id") int id){
 		Map<String , Object> map = new HashMap<String , Object>();

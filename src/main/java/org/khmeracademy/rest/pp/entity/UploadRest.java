@@ -12,7 +12,7 @@ public class UploadRest {
 	private String commune;
 	private String homenumber;
 	private String street;
-	private String type;
+	private int type;
 	
 	private List<Telephone> telephone;
 	private List<MultipartFile> menus;
@@ -29,7 +29,7 @@ public class UploadRest {
 		
 	}
 	public UploadRest(String name, String description, String delivery, String district, String commune,
-			String homenumber, String street, String type, List<Telephone> telephone, List<MultipartFile> menus,
+			String homenumber, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
 			List<MultipartFile> image) {
 		super();
 		this.name = name;
@@ -86,10 +86,10 @@ public class UploadRest {
 	public void setStreet(String street) {
 		this.street = street;
 	}
-	public String getType() {
+	public int getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 	public List<Telephone> getTelephone() {

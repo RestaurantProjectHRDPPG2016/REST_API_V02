@@ -140,10 +140,7 @@ public interface RestaurantRepository {
 			+ "Rest.street, "
 			+ "Rest.district, "
 			+ "Rest.commune "
-			+ " FROM rest_restaurant Rest "
-			+ "INNER JOIN rest_rest_image Image ON Image.rest_id = Rest.rest_id "
-			+ "INNER JOIN rest_menu Menu ON Menu.rest_id = Rest.rest_id "
-			+ "INNER JOIN rest_telephone Tel ON Tel.rest_id = Rest.rest_id")
+			+ " FROM rest_restaurant Rest ")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),

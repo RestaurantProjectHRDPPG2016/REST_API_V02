@@ -10,11 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -25,12 +24,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @MapperScan("org.khmeracademy.rest.pp.repository")
 @EnableSwagger2
+@EnableWebMvc
 public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 	@Autowired
-	private DataSource dataSource;
-	
+	private DataSource dataSource; 
 
-
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(500*1024*1024); //Maximum Size: 500MB
+		//multipartResolver.setMaxUploadSizePerFile(50*1024*1024); //Maximum Size Per File: 50MB
+		return multipartResolver;
+	}
 	
 	@Bean
 	public SqlSessionFactoryBean sqlSessionFactoryBean(){
@@ -56,6 +61,16 @@ public class RestApiConfiguration extends WebMvcConfigurerAdapter {
 				.allowedMethods("GET","POST","DELETE","PUT","OPTIONS","PATCH")
 				.allowedOrigins("*");
 	}
+
+   @Override
+   public void addResourceHandlers(ResourceHandlerRegistry registry) {
+       registry
+           .addResourceHandler("swagger-ui.html")
+           .addResourceLocations("classpath:/META-INF/resources/");
+       registry
+           .addResourceHandler("/webjars/**")
+           .addResourceLocations("classpath:/META-INF/resources/webjars/");
+   }
 
 
    

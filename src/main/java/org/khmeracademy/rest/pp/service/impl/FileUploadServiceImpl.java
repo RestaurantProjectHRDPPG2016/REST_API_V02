@@ -78,7 +78,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 			if(folder=="" || folder==null)
 				folder = "DEFAULT";
 			
-			String PROJECT_PATH = "/resources/MOL/UPLOAD/" + folder;
+			String PROJECT_PATH = "/resources/MOL/UPLOAD/" + folder + "/";
 			String UPLOAD_PATH = request.getServletContext().getRealPath(PROJECT_PATH);
 			
 			java.io.File path = new java.io.File(UPLOAD_PATH);
@@ -93,7 +93,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 					Files.copy(file.getInputStream(), Paths.get(UPLOAD_PATH, fileName));
 					names.add(fileName);
 				} catch (Exception e) { 
-					fileUpload.setMessage("Fail to upload!, " + e.getMessage());
+					fileUpload.setMessage("Fail to upload please try again latter Youra!, " + e.getMessage());
 				}
 			}
 			fileUpload.setProjectPath(PROJECT_PATH);
