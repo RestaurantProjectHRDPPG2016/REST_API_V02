@@ -24,6 +24,6 @@ public interface LocationRepository {
 			+"official_note, "
 			+"checker_note, "
 			+"parent_id "
-			+" FROM rest_locations where type_code!=")
+			+" FROM rest_locations")
 	ArrayList<Location> findAllLocation();
 }
