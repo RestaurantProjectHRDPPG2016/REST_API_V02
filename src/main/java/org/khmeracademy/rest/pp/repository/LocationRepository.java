@@ -24,25 +24,6 @@ public interface LocationRepository {
 			+"official_note, "
 			+"checker_note, "
 			+"parent_id "
-			+" FROM rest_locations")
+			+" FROM rest_locations where type_code!=")
 	ArrayList<Location> findAllLocation();
-
-	@Select("SELECT"
-					+"khmer_name"
-					+" FROM rest_locations"
-					+"where type_code='0'")
-			ArrayList<Location> findProvince();
-
-	@Select("SELECT"
-			+"khmer_name"
-			+" FROM rest_location"
-			+" WHERE type_code='1'")
-		ArrayList<Location> findDistrict();
-
-	@Select("SELECT"
-		+"khmer_name"
-		+" FROM rest_location"
-		+" WHERE type_code='2'")
-		ArrayList<Location> findCommune();
-
 }

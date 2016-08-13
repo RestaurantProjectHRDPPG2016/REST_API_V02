@@ -1,5 +1,7 @@
 package org.khmeracademy.rest.pp.controller;
 
+import java.awt.Image;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,11 +71,10 @@ public class RestaurantController {
 		rest.setDelivery(uploadRest.getDelivery());
 		rest.setCommune(uploadRest.getCommune());
 		rest.setDistrict(uploadRest.getDistrict());
-		rest.setHome(uploadRest.getHomenumber());
+		rest.setHome(uploadRest.getHome());
 		rest.setStreet(uploadRest.getStreet());
 		rest.setSub_id(uploadRest.getType());
 		rest.setTel(tels);
-		
 		
 		rest.setMenus(menus);
 		rest.setImages(images);

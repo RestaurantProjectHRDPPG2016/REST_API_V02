@@ -10,7 +10,7 @@ public class UploadRest {
 	private String delivery;
 	private String district;
 	private String commune;
-	private String homenumber;
+	private String home;
 	private String street;
 	private int type;
 	
@@ -37,7 +37,7 @@ public class UploadRest {
 		this.delivery = delivery;
 		this.district = district;
 		this.commune = commune;
-		this.homenumber = homenumber;
+		this.home = home;
 		this.street = street;
 		this.type = type;
 		this.telephone = telephone;
@@ -74,11 +74,11 @@ public class UploadRest {
 	public void setCommune(String commune) {
 		this.commune = commune;
 	}
-	public String getHomenumber() {
-		return homenumber;
+	public String getHome() {
+		return home;
 	}
-	public void setHomenumber(String homenumber) {
-		this.homenumber = homenumber;
+	public void setHome(String home) {
+		this.home = home;
 	}
 	public String getStreet() {
 		return street;
@@ -113,7 +113,7 @@ public class UploadRest {
 	@Override
 	public String toString() {
 		return "UploadRest [name=" + name + ", description=" + description + ", delivery=" + delivery + ", district="
-				+ district + ", commune=" + commune + ", homenumber=" + homenumber + ", street=" + street + ", type="
+				+ district + ", commune=" + commune + ", home=" + home + ", street=" + street + ", type="
 				+ type + ", telephone=" + telephone + ", menus=" + menus + ", image=" + image + ", telephones="
 				+ telephones + "]";
 	}

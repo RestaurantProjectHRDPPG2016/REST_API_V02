@@ -1,5 +1,7 @@
 package org.khmeracademy.rest.pp.entity;
 
+import java.util.List;
+
 public class Location {
 
 	private int id;
@@ -12,6 +14,9 @@ public class Location {
 	private String official_note;
 	private String checker_note;
 	private int parent_id;
+	
+
+	
 	
 	public Location(){
 		
