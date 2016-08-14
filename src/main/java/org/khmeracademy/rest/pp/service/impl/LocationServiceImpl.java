@@ -1,6 +1,6 @@
 package org.khmeracademy.rest.pp.service.impl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.khmeracademy.rest.pp.entity.Location;
 import org.khmeracademy.rest.pp.repository.LocationRepository;
@@ -15,25 +15,45 @@ public class LocationServiceImpl implements LocationService {
 	private LocationRepository locationRepository;
 	
 	@Override
-	public ArrayList<Location> findAllLocation() {
-		return locationRepository.findAllLocation();
+	public List<Location> getAllCities() {
+		try{
+			return locationRepository.getAllCities(0);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Location> getAllDistrictsByCityId(int cityId) {
+		try{
+			return locationRepository.getAllDistrictsByCityId(cityId);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Location> getAllCommunesByDistrictById(int districtId) {
+		try{
+			return locationRepository.getAllCommuneByDistrictID(districtId);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
 	}
 
-//	@Override
-//	public boolean saveLocation(Location location) {
-//		return locationRepository.saveLocation(location);
-//	}
-//
-//	@Override
-//	public boolean deleteLocation(int id) {
-//		return locationRepository.deleteLocation(id);
-//	}
-//
-//	@Override
-//	public boolean updateLocation(Location location) {
-//		return locationRepository.updateLocation(location);
-//	}
+	@Override
+	public List<Location> getAllVillagesByCommuneId(int communeId) {
+		try{
+			return locationRepository.getAllVillageByCommuneID(communeId);
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	
 
+	}
 	
-	
-}

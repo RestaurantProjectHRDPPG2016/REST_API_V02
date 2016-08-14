@@ -41,9 +41,9 @@ public interface RestaurantRepository {
 //	
 //	INSERT
 	@Insert("INSERT INTO rest_restaurant "
-			+ "(c_id,name,description,delivery,home,street,district,commune) "
+			+ "(c_id,name,description,delivery,home,street,province,district,commune) "
 			+ "VALUES"
-			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{district},#{commune})") 
+			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{province},#{district},#{commune})") 
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
@@ -88,7 +88,7 @@ public interface RestaurantRepository {
 //	Update 
 	
 	@Update("UPDATE rest_restaurant SET"
-			+ "(c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},district=#{district},commune=#{commune} "
+			+ "(c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},province=#{province},district=#{district},commune=#{commune} "
 			+ "WHERE rest_id=#{my_id) ")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
@@ -138,8 +138,10 @@ public interface RestaurantRepository {
 			+ "Rest.delivery, "
 			+ "Rest.home, "
 			+ "Rest.street, "
+			+ "Rest.province, "
 			+ "Rest.district, "
-			+ "Rest.commune "
+			+ "Rest.commune, "
+			+ "Rest.create_date "
 			+ " FROM rest_restaurant Rest ")
 	@Results({
 		@Result(property="id",column="rest_id"),
@@ -149,8 +151,10 @@ public interface RestaurantRepository {
 		@Result(property="delivery",column="delivery"),
 		@Result(property="home",column="home"),
 		@Result(property="street",column="street"),
+		@Result(property="province",column="province"),
 		@Result(property="district",column="district"),
 		@Result(property="commune",column="commune"),
+		@Result(property="create_date",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))

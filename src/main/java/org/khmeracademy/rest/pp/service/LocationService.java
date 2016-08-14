@@ -1,21 +1,17 @@
 package org.khmeracademy.rest.pp.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.khmeracademy.rest.pp.entity.Location;
 
 public interface LocationService {
 	
-//	GET LOCATION
-	ArrayList<Location> findAllLocation();
-//	
-//// SAVE LOCATION
-//	boolean saveLocation(Location location);
-//	
-//// DELETE LOCATION
-//	boolean deleteLocation(int id);
-//	
-////	UPDATE LOCATION
-//	boolean updateLocation(Location location);
-
+	List<Location> getAllCities();
+	
+	List<Location> getAllDistrictsByCityId(int cityId);
+	
+	List<Location> getAllCommunesByDistrictById(int districtId);
+	
+	List<Location> getAllVillagesByCommuneId(int communeId);
+	
 }

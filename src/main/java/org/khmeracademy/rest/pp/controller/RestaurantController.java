@@ -75,6 +75,10 @@ public class RestaurantController {
 		rest.setStreet(uploadRest.getStreet());
 		rest.setSub_id(uploadRest.getType());
 		rest.setTel(tels);
+		rest.setProvince(uploadRest.getProvince());
+		rest.setCreate_date(uploadRest.getCreate_date());
+		rest.setLatitude(uploadRest.getLatitude());
+		rest.setLongitude(uploadRest.getLongitude());
 		
 		rest.setMenus(menus);
 		rest.setImages(images);

@@ -11,8 +11,12 @@ public class Restaurant {
 	private String home;
 	private String street;
 	private String type;
+	private String province;
 	private String district;
 	private String commune;
+	private String latitude;
+	private String longitude;
+	private String create_date;
 	private List<Telephone> telephone;
 	private List<Menu> menus;
 	private List<Images> images;
@@ -20,8 +24,8 @@ public class Restaurant {
 	public Restaurant(){
 		
 	}
-	public Restaurant(int id,int sub_id, String name, String desc,String delivery, String home, String street, String type, String district,
-			String commune, String tel, String img, String menu) {
+	public Restaurant(String create_date,int id,int sub_id, String name, String desc,String delivery, String home, String street, String type, String district,
+			String latitude,String longitude,String province,String commune, String tel, String img, String menu) {
 		super();
 		this.id = id;
 		this.sub_id = sub_id;
@@ -33,7 +37,12 @@ public class Restaurant {
 		this.type = type;
 		this.district = district;
 		this.commune = commune;
+		this.district = district;
+		this.longitude= longitude;
+		this.latitude= latitude;
+		this.create_date = create_date;
 	}
+	
 	public int getId() {
 		return id;
 	}
@@ -112,5 +121,36 @@ public class Restaurant {
 	public void setSub_id(int sub_id) {
 		this.sub_id = sub_id;
 	}
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public List<Telephone> getTelephone() {
+		return telephone;
+	}
+	public void setTelephone(List<Telephone> telephone) {
+		this.telephone = telephone;
+	}
+	public String getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
+	
 		
 }

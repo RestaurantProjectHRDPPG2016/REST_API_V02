@@ -8,11 +8,15 @@ public class UploadRest {
 	private String name;
 	private String description;
 	private String delivery;
+	private String province;
 	private String district;
 	private String commune;
 	private String home;
 	private String street;
 	private int type;
+	private String latitude;
+	private String longitude;
+	private String create_date;
 	
 	private List<Telephone> telephone;
 	private List<MultipartFile> menus;
@@ -28,8 +32,8 @@ public class UploadRest {
 	public UploadRest(){
 		
 	}
-	public UploadRest(String name, String description, String delivery, String district, String commune,
-			String homenumber, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
+	public UploadRest(String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
+			String home, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
 			List<MultipartFile> image) {
 		super();
 		this.name = name;
@@ -43,6 +47,26 @@ public class UploadRest {
 		this.telephone = telephone;
 		this.menus = menus;
 		this.image = image;
+		this.create_date = create_date;
+	}
+	
+	public String getProvince() {
+		return province;
+	}
+	public void setProvince(String province) {
+		this.province = province;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	public String getName() {
 		return name;
@@ -116,6 +140,12 @@ public class UploadRest {
 				+ district + ", commune=" + commune + ", home=" + home + ", street=" + street + ", type="
 				+ type + ", telephone=" + telephone + ", menus=" + menus + ", image=" + image + ", telephones="
 				+ telephones + "]";
+	}
+	public String getCreate_date() {
+		return create_date;
+	}
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
 	}
 	
 	
