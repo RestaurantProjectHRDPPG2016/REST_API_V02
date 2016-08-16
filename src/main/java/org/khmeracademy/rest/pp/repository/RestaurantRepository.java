@@ -167,7 +167,7 @@ public interface RestaurantRepository {
 	})
 	ArrayList<Restaurant> findAll(Pagination pagination);
 	
-	@Select("SELECT COUNT(rest_id) FROM rest_restaurant")
+	@Select("SELECT COUNT(*) FROM rest_restaurant")
 	public long countFindAll();
 	
 	@Select("SELECT rest_img_id,rest_id, url FROM rest_rest_image WHERE rest_id=#{rest_id}")

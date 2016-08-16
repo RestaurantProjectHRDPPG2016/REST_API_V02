@@ -145,11 +145,13 @@ public class RestaurantController {
 	}
 	
 	@RequestMapping(value="/restaurant" , method = RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> findRestaurant(@RequestParam("limit") int limit , @RequestParam("page") int page){
+//	public ResponseEntity<Map<String,Object>> findRestaurant(@RequestParam("limit") int limit , @RequestParam("page") int page){
+//		
+	public ResponseEntity<Map<String,Object>> findRestaurant(Pagination pagination){
 		
-		Pagination pagination = new Pagination();
-	    pagination.setPage(page);
-		pagination.setLimit(limit);
+//		Pagination pagination = new Pagination();
+//	    pagination.setPage(page);
+//		pagination.setLimit(limit);
 		pagination.setTotalCount(restaurantService.CountfindAll());
 		//restaurantService.
 		
