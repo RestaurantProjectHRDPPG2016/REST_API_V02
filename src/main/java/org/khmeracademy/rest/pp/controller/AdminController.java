@@ -8,6 +8,7 @@ import org.khmeracademy.rest.pp.entity.MainCategory;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.service.MainCategoryService;
 import org.khmeracademy.rest.pp.service.RestaurantService;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,14 @@ public class AdminController {
 	private MainCategoryService mainCategoryService;
 	
 	@RequestMapping(value="/maincategory", method= RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> findAll(){
-		ArrayList<MainCategory> mainCategory = mainCategoryService.findAll();
+	public ResponseEntity<Map<String,Object>> findAll(Pagination pagination){
+		ArrayList<MainCategory> mainCategory = mainCategoryService.findAll(pagination);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
 		map.put("MESSAGE","RECORDS FOUND!");
 		map.put("DATA", mainCategory);
+		map.put("Pagination", pagination);
 		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
 	@RequestMapping(value="/maincategory" , method = RequestMethod.POST)

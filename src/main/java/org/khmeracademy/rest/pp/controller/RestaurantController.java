@@ -152,4 +152,41 @@ public class RestaurantController {
 		map.put("DATA", Restaurant);
 		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/restaurant/{id}" , method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> findRestByID(@PathVariable("id") int id){
+		ArrayList<Restaurant> Restaurant = restaurantService.findByRestId(id);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("CODE","200");
+		map.put("MESSAGE","RECORDS FOUND!");
+		map.put("DATA", Restaurant);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value="/restaurant/category/{CategoryId}" , method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("CategoryId") int CategoryId){
+		ArrayList<Restaurant> Restaurant = restaurantService.findByCategoryId(CategoryId);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("CODE","200");
+		map.put("MESSAGE","RECORDS FOUND!");
+		map.put("DATA", Restaurant);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/restaurant/type/{TypeId}" , method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> findRestByTypeId(@PathVariable("TypeId") int TypeId){
+		ArrayList<Restaurant> Restaurant = restaurantService.findByTypeId(TypeId);
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("CODE","200");
+		map.put("MESSAGE","RECORDS FOUND!");
+		map.put("DATA", Restaurant);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	}
+	
+	
+	
 }

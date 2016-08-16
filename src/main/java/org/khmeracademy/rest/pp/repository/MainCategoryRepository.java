@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.khmeracademy.rest.pp.entity.MainCategory;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,7 +20,13 @@ public interface MainCategoryRepository {
 	boolean update(MainCategory mainCategory);
 	@Insert("INSERT INTO rest_categories (rest_type_id,c_name,img1,img2) VALUES (#{t_id},#{name},#{img1},#{img2})")
 	boolean save(MainCategory mainCategory);
-	@Select("SELECT * FROM rest_categories ORDER BY c_id DESC")
+	@Select("SELECT * FROM rest_categories ORDER BY c_id DESC"
+
+				+ "	LIMIT "
+				+ "		#{limit} "
+				
+				+ "	OFFSET "
+				+ "		#{offset}")
 	@Results({
 		@Result(property="id",column="c_id"),
 		@Result(property="t_id",column="rest_type_id"),
@@ -27,5 +34,8 @@ public interface MainCategoryRepository {
 		@Result(property="img1",column="img1"),
 		@Result(property="img2",column="img2")
 	})
-	ArrayList<MainCategory> findAll();
+	ArrayList<MainCategory> findAll(Pagination pagination);
+	
+	@Select("SELECT COUNT (*) from rest_categories")
+	public long totalCount();
 }

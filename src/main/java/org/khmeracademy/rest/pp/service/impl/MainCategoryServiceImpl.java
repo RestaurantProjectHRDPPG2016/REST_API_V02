@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.khmeracademy.rest.pp.entity.MainCategory;
 import org.khmeracademy.rest.pp.repository.MainCategoryRepository;
 import org.khmeracademy.rest.pp.service.MainCategoryService;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 @Service
@@ -27,8 +28,9 @@ public class MainCategoryServiceImpl implements MainCategoryService {
 	}
 
 	@Override
-	public ArrayList<MainCategory> findAll() {
-		return mainCategoryRepository.findAll();
+	public ArrayList<MainCategory> findAll(Pagination pagination) {
+		pagination.setTotalCount(mainCategoryRepository.totalCount());
+		return mainCategoryRepository.findAll(pagination);
 	}
 
 }

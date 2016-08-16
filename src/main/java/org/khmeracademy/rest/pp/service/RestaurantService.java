@@ -12,4 +12,7 @@ public interface RestaurantService {
 	int save(Restaurant restaurant);
 	boolean update(Restaurant retaurant);
 	ArrayList<Restaurant> findAll();
+	ArrayList<Restaurant> findByTypeId(int TypeId);
+	ArrayList<Restaurant> findByCategoryId(int CategoryId);
+	ArrayList<Restaurant> findByRestId(int id);
 }

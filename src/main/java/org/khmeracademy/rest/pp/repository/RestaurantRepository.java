@@ -188,4 +188,110 @@ public interface RestaurantRepository {
 	public List<Telephone> findTelephone( int rest_id);
 	
 //	end select
+//	select restaurant by restID
+	@Select("SELECT "
+			+ "Rest.rest_id, "
+			+ "Rest.c_id, "
+			+ "Rest.name, "
+			+ "Rest.description, "
+			+ "Rest.delivery, "
+			+ "Rest.home, "
+			+ "Rest.street, "
+			+ "Rest.province, "
+			+ "Rest.district, "
+			+ "Rest.commune, "
+			+ "Rest.create_date "
+			+ " FROM rest_restaurant Rest WHERE Rest.rest_id=#{id} ")
+	@Results({
+		@Result(property="id",column="rest_id"),
+		@Result(property="sub_id",column="c_id"),
+		@Result(property="name",column="name"),
+		@Result(property="desc",column="description"),
+		@Result(property="delivery",column="delivery"),
+		@Result(property="home",column="home"),
+		@Result(property="street",column="street"),
+		@Result(property="province",column="province"),
+		@Result(property="district",column="district"),
+		@Result(property="commune",column="commune"),
+		@Result(property="create_date",column="create_date"),
+		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
+		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+	})
+	ArrayList<Restaurant> findByRestId(int id);
+	
+	
+	
+//	select restaurant by CategoryID
+	@Select("SELECT "
+			+ "Rest.rest_id, "
+			+ "Rest.c_id, "
+			+ "Rest.name, "
+			+ "Rest.description, "
+			+ "Rest.delivery, "
+			+ "Rest.home, "
+			+ "Rest.street, "
+			+ "Rest.province, "
+			+ "Rest.district, "
+			+ "Rest.commune, "
+			+ "Rest.create_date "
+			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca"
+			+" ON Rest.c_id = Ca.c_id"
+			+" WHERE Ca.c_id"
+			+" =#{CategoryId} ")
+	@Results({
+		@Result(property="id",column="rest_id"),
+		@Result(property="sub_id",column="c_id"),
+		@Result(property="name",column="name"),
+		@Result(property="desc",column="description"),
+		@Result(property="delivery",column="delivery"),
+		@Result(property="home",column="home"),
+		@Result(property="street",column="street"),
+		@Result(property="province",column="province"),
+		@Result(property="district",column="district"),
+		@Result(property="commune",column="commune"),
+		@Result(property="create_date",column="create_date"),
+		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
+		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+	})
+	ArrayList<Restaurant> findByCategoryId(int CategoryId);
+	
+//	select restaurant by TypeID
+	@Select("SELECT "
+			+ "Rest.rest_id, "
+			+ "Rest.c_id, "
+			+ "Rest.name, "
+			+ "Rest.description, "
+			+ "Rest.delivery, "
+			+ "Rest.home, "
+			+ "Rest.street, "
+			+ "Rest.province, "
+			+ "Rest.district, "
+			+ "Rest.commune, "
+			+ "Rest.create_date "
+			+ " FROM rest_restaurant Rest LEFT JOIN rest_categories Ca"
+			+" ON Rest.c_id = Ca.c_id"
+			+" LEFT JOIN rest_rest_type T"
+			+ " ON  Ca.rest_type_id=T.rest_type_id"
+			+ " WHERE T.rest_type_id"
+			+" =#{TypeId} ")
+	@Results({
+		@Result(property="id",column="rest_id"),
+		@Result(property="sub_id",column="c_id"),
+		@Result(property="name",column="name"),
+		@Result(property="desc",column="description"),
+		@Result(property="delivery",column="delivery"),
+		@Result(property="home",column="home"),
+		@Result(property="street",column="street"),
+		@Result(property="province",column="province"),
+		@Result(property="district",column="district"),
+		@Result(property="commune",column="commune"),
+		@Result(property="create_date",column="create_date"),
+		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
+		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+	})
+	ArrayList<Restaurant> findByTypeId(int TypeId);
+	
 }

@@ -1,4 +1,4 @@
-package org.khmeracademy.rest.pp.service.impl;
+	package org.khmeracademy.rest.pp.service.impl;
 
 import java.util.ArrayList;
 
@@ -67,11 +67,28 @@ public class RestaurantServiceImpl implements RestaurantService {
 		}
 		return true;
 	}
-
 	@Override
 	public ArrayList<Restaurant> findAll() {
 		return restaurantRepository.findAll();
 	}
+	
+
+
+	@Override
+	public ArrayList<Restaurant> findByCategoryId(int CategoryId) {
+		return restaurantRepository.findByCategoryId(CategoryId);
+	}
+
+	@Override
+	public ArrayList<Restaurant> findByRestId(int id) {
+		return restaurantRepository.findByRestId(id);
+	}
+
+	@Override
+	public ArrayList<Restaurant> findByTypeId(int TypeId) {
+		return restaurantRepository.findByTypeId(TypeId);
+	}
+
 
 
 }
