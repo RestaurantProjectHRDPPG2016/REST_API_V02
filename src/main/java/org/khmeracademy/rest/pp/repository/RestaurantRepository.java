@@ -16,6 +16,7 @@ import org.khmeracademy.rest.pp.entity.Images;
 import org.khmeracademy.rest.pp.entity.Menu;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.Telephone;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -142,7 +143,12 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date "
-			+ " FROM rest_restaurant Rest ")
+			+ " FROM rest_restaurant Rest "
+			+" ORDER BY rest_id DESC"
+			+ "	LIMIT "
+			+ "		#{limit} "
+			+ "	OFFSET "
+			+ "		#{offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -159,7 +165,10 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findAll();
+	ArrayList<Restaurant> findAll(Pagination pagination);
+	
+	@Select("SELECT COUNT(rest_id) FROM rest_restaurant")
+	public long countFindAll();
 	
 	@Select("SELECT rest_img_id,rest_id, url FROM rest_rest_image WHERE rest_id=#{rest_id}")
 	@Results(value = {
@@ -238,7 +247,12 @@ public interface RestaurantRepository {
 			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca"
 			+" ON Rest.c_id = Ca.c_id"
 			+" WHERE Ca.c_id"
-			+" =#{CategoryId} ")
+			+" =#{CategoryId} "
+			+" ORDER BY rest_id DESC"
+			+ "	LIMIT "
+			+ "		#{limit} "
+			+ "	OFFSET "
+			+ "		#{offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -255,7 +269,7 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findByCategoryId(int CategoryId);
+	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
 	
 //	select restaurant by TypeID
 	@Select("SELECT "
@@ -275,7 +289,12 @@ public interface RestaurantRepository {
 			+" LEFT JOIN rest_rest_type T"
 			+ " ON  Ca.rest_type_id=T.rest_type_id"
 			+ " WHERE T.rest_type_id"
-			+" =#{TypeId} ")
+			+" =#{TypeId} "
+			+" ORDER BY rest_id DESC"
+			+ "	LIMIT "
+			+ "		#{limit} "
+			+ "	OFFSET "
+			+ "		#{offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -292,6 +311,6 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findByTypeId(int TypeId);
+	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
 	
 }

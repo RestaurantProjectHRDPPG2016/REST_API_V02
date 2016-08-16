@@ -9,6 +9,7 @@ import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.UploadRest;
 import org.khmeracademy.rest.pp.repository.RestaurantRepository;
 import org.khmeracademy.rest.pp.service.RestaurantService;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,15 +69,15 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return true;
 	}
 	@Override
-	public ArrayList<Restaurant> findAll() {
-		return restaurantRepository.findAll();
+	public ArrayList<Restaurant> findAll(Pagination pagination) {
+		return restaurantRepository.findAll(pagination);
 	}
 	
 
 
 	@Override
-	public ArrayList<Restaurant> findByCategoryId(int CategoryId) {
-		return restaurantRepository.findByCategoryId(CategoryId);
+	public ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination) {
+		return restaurantRepository.findByCategoryId(CategoryId,pagination);
 	}
 
 	@Override
@@ -85,8 +86,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public ArrayList<Restaurant> findByTypeId(int TypeId) {
-		return restaurantRepository.findByTypeId(TypeId);
+	public ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination) {
+		return restaurantRepository.findByTypeId(TypeId, pagination);
+	}
+
+	@Override
+	public long CountfindAll() {
+		return restaurantRepository.countFindAll();
 	}
 
 

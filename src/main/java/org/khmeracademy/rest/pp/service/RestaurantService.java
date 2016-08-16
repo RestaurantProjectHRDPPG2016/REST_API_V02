@@ -6,13 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.UploadRest;
+import org.khmeracademy.rest.pp.utilities.Pagination;
 
 public interface RestaurantService {
 	boolean remove(int id);
 	int save(Restaurant restaurant);
 	boolean update(Restaurant retaurant);
-	ArrayList<Restaurant> findAll();
-	ArrayList<Restaurant> findByTypeId(int TypeId);
-	ArrayList<Restaurant> findByCategoryId(int CategoryId);
+	long CountfindAll();
+	ArrayList<Restaurant> findAll(Pagination pagination);
+	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
+	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
 	ArrayList<Restaurant> findByRestId(int id);
 }
