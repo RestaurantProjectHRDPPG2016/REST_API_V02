@@ -188,7 +188,7 @@ public class RestaurantController {
 //		
 	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("id") int id, Pagination pagination){
 		ArrayList<Restaurant> Restaurant = restaurantService.findByCategoryId(id,  pagination);
-		pagination.setTotalCount(restaurantService.countFindByCatID());
+		pagination.setTotalCount(restaurantService.countFindByCatID(id));
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
 		map.put("MESSAGE","RECORDS FOUND!");
@@ -198,9 +198,10 @@ public class RestaurantController {
 	}
 	
 	
-	@RequestMapping(value="/restaurant/type/{TypeId}" , method = RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> findRestByTypeId(@PathVariable("TypeId") int TypeId, Pagination pagination){
-		ArrayList<Restaurant> Restaurant = restaurantService.findByTypeId(TypeId, pagination);
+	@RequestMapping(value="/restaurant/type/{id}" , method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> findRestByTypeId(@PathVariable("id") int id, Pagination pagination){
+		pagination.setTotalCount(restaurantService.countFindByTypeID(id));
+		ArrayList<Restaurant> Restaurant = restaurantService.findByTypeId(id, pagination);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");

@@ -13,7 +13,8 @@ public interface RestaurantService {
 	int save(Restaurant restaurant);
 	boolean update(Restaurant retaurant);
 	long CountfindAll();
-	long countFindByCatID();
+	long countFindByCatID(int id);
+	long countFindByTypeID(int id);
 	ArrayList<Restaurant> findAll(Pagination pagination);
 	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
 	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);

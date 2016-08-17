@@ -284,8 +284,11 @@ public interface RestaurantRepository {
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
-	@Select("SELECT COUNT(*) FROM rest_restaurant")
-	public long countFindByCatID();
+	@Select("SELECT COUNT(*) "
+			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca "
+			+" ON Rest.c_id = Ca.c_id "
+			+" WHERE Ca.c_id =#{id} ")
+	public long countFindByCatID(int id);
 	
 //	select restaurant by TypeID
 	@Select("SELECT "
@@ -300,17 +303,17 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date "
-			+ " FROM rest_restaurant Rest LEFT JOIN rest_categories Ca"
+			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca"
 			+" ON Rest.c_id = Ca.c_id"
-			+" LEFT JOIN rest_rest_type T"
+			+" INNER JOIN rest_rest_type T"
 			+ " ON  Ca.rest_type_id=T.rest_type_id"
 			+ " WHERE T.rest_type_id"
-			+" =#{TypeId} "
+			+" =#{id} "
 			+" ORDER BY rest_id DESC"
 			+ "	LIMIT "
-			+ "		#{limit} "
+			+ "		#{pagination.limit} "
 			+ "	OFFSET "
-			+ "		#{offset}")
+			+ "		#{pagination.offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -327,6 +330,14 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
+	ArrayList<Restaurant> findByTypeId(@Param("id") int id,@Param("pagination") Pagination pagination);
+	@Select("SELECT COUNT(*) "
+			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca "
+			+" ON Rest.c_id = Ca.c_id"
+			+" INNER JOIN rest_rest_type T"
+			+ " ON  Ca.rest_type_id=T.rest_type_id"
+			+ " WHERE T.rest_type_id "
+			+" =#{id} ")
+	public long countFindByTypeID(int id);
 	
 }
