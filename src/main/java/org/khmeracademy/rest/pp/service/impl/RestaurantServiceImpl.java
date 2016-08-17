@@ -76,8 +76,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 
 	@Override
-	public ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination) {
-		return restaurantRepository.findByCategoryId(CategoryId,pagination);
+	public ArrayList<Restaurant> findByCategoryId(int id,Pagination pagination) {
+		return restaurantRepository.findByCategoryId(id,pagination);
 	}
 
 	@Override

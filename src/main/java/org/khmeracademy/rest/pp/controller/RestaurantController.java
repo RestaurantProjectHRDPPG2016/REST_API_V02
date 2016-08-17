@@ -1,7 +1,5 @@
 package org.khmeracademy.rest.pp.controller;
 
-import java.awt.Image;
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +23,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 public class RestaurantController {
@@ -177,9 +178,13 @@ public class RestaurantController {
 	}
 	
 	
-	@RequestMapping(value="/restaurant/category/{CategoryId}" , method = RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("CategoryId") int CategoryId,Pagination pagination){
-		ArrayList<Restaurant> Restaurant = restaurantService.findByCategoryId(CategoryId, pagination);
+	@RequestMapping(value="/restaurant/category/{id}" , method = RequestMethod.GET)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="page", paramType="query", defaultValue="1"),
+		@ApiImplicitParam(name="limit", paramType="query", defaultValue="15")
+	})
+	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("id") int id, @ApiIgnore Pagination pagination){
+		ArrayList<Restaurant> Restaurant = restaurantService.findByCategoryId(id,  pagination);
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
@@ -188,6 +193,7 @@ public class RestaurantController {
 		map.put("Pagination", pagination);
 		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
+	
 	
 	@RequestMapping(value="/restaurant/type/{TypeId}" , method = RequestMethod.GET)
 	public ResponseEntity<Map<String,Object>> findRestByTypeId(@PathVariable("TypeId") int TypeId, Pagination pagination){

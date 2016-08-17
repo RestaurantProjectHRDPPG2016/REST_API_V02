@@ -245,6 +245,7 @@ public interface RestaurantRepository {
 	
 	
 	
+	
 //	select restaurant by CategoryID
 	@Select("SELECT "
 			+ "Rest.rest_id, "
@@ -258,15 +259,14 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date "
-			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca"
-			+" ON Rest.c_id = Ca.c_id"
-			+" WHERE Ca.c_id"
-			+" =#{CategoryId} "
-			+" ORDER BY rest_id DESC"
+			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca "
+			+" ON Rest.c_id = Ca.c_id "
+			+" WHERE Ca.c_id =#{id} "
+			+" ORDER BY Rest.rest_id DESC"
 			+ "	LIMIT "
-			+ "		#{limit} "
+			+ "		#{pagination.limit} "
 			+ "	OFFSET "
-			+ "		#{offset}")
+			+ "		#{pagination.offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -283,8 +283,7 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
-	
+	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
 //	select restaurant by TypeID
 	@Select("SELECT "
 			+ "Rest.rest_id, "
