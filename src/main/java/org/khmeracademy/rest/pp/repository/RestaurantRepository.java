@@ -223,7 +223,6 @@ public interface RestaurantRepository {
 			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
 			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
-			
 			+ "WHERE Rest.rest_id=#{id} ")
 	@Results({
 		@Result(property="id",column="rest_id"),
@@ -258,9 +257,15 @@ public interface RestaurantRepository {
 			+ "Rest.province, "
 			+ "Rest.district, "
 			+ "Rest.commune, "
-			+ "Rest.create_date "
+			+ "Rest.create_date, "
+			+ " Province.khmer_name as location_province, "
+			+ " District.khmer_name as location_district, "
+			+ " Commune.khmer_name as location_commune "
 			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca "
 			+" ON Rest.c_id = Ca.c_id "
+			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
+			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
+			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
 			+" WHERE Ca.c_id =#{id} "
 			+" ORDER BY Rest.rest_id DESC"
 			+ "	LIMIT "
@@ -275,9 +280,9 @@ public interface RestaurantRepository {
 		@Result(property="delivery",column="delivery"),
 		@Result(property="home",column="home"),
 		@Result(property="street",column="street"),
-		@Result(property="province",column="province"),
-		@Result(property="district",column="district"),
-		@Result(property="commune",column="commune"),
+		@Result(property="province",column="location_province"),
+		@Result(property="district",column="location_district"),
+		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
@@ -285,9 +290,11 @@ public interface RestaurantRepository {
 	})
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
-			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca "
-			+" ON Rest.c_id = Ca.c_id "
-			+" WHERE Ca.c_id =#{id} ")
+			+ " FROM rest_restaurant "
+//			+ "Rest INNER JOIN rest_categories Ca "
+//			+" ON Rest.c_id = Ca.c_id "
+//			+" WHERE Ca.c_id =#{id} "
+			)
 	public long countFindByCatID(int id);
 	
 //	select restaurant by TypeID
@@ -302,8 +309,15 @@ public interface RestaurantRepository {
 			+ "Rest.province, "
 			+ "Rest.district, "
 			+ "Rest.commune, "
-			+ "Rest.create_date "
-			+ " FROM rest_restaurant Rest INNER JOIN rest_categories Ca"
+			+ "Rest.create_date, "
+			+ " Province.khmer_name as location_province, "
+			+ " District.khmer_name as location_district, "
+			+ " Commune.khmer_name as location_commune "
+			+ " FROM rest_restaurant Rest "
+			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
+			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
+			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
+			+ " INNER JOIN rest_categories Ca "
 			+" ON Rest.c_id = Ca.c_id"
 			+" INNER JOIN rest_rest_type T"
 			+ " ON  Ca.rest_type_id=T.rest_type_id"
@@ -322,9 +336,9 @@ public interface RestaurantRepository {
 		@Result(property="delivery",column="delivery"),
 		@Result(property="home",column="home"),
 		@Result(property="street",column="street"),
-		@Result(property="province",column="province"),
-		@Result(property="district",column="district"),
-		@Result(property="commune",column="commune"),
+		@Result(property="province",column="location_province"),
+		@Result(property="district",column="location_district"),
+		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
