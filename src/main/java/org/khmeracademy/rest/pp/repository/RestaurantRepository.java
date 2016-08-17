@@ -284,6 +284,9 @@ public interface RestaurantRepository {
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
+	@Select("SELECT COUNT(*) FROM rest_restaurant")
+	public long countFindByCatID();
+	
 //	select restaurant by TypeID
 	@Select("SELECT "
 			+ "Rest.rest_id, "

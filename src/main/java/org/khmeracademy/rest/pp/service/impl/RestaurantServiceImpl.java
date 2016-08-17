@@ -95,6 +95,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantRepository.countFindAll();
 	}
 
+	@Override
+	public long countFindByCatID() {
+		return restaurantRepository.countFindByCatID();
+	}
+
 
 
 }
