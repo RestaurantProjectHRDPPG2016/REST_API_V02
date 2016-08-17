@@ -291,9 +291,9 @@ public interface RestaurantRepository {
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
 			+ " FROM rest_restaurant "
-//			+ "Rest INNER JOIN rest_categories Ca "
-//			+" ON Rest.c_id = Ca.c_id "
-//			+" WHERE Ca.c_id =#{id} "
+			+ "Rest INNER JOIN rest_categories Ca "
+			+" ON Rest.c_id = Ca.c_id "
+			+" WHERE Ca.c_id =#{id} "
 			)
 	public long countFindByCatID(int id);
 	
