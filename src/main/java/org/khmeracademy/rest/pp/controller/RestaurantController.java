@@ -179,13 +179,16 @@ public class RestaurantController {
 	
 	
 	@RequestMapping(value="/restaurant/category/{id}" , method = RequestMethod.GET)
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="page", paramType="query", defaultValue="1"),
-		@ApiImplicitParam(name="limit", paramType="query", defaultValue="15")
-	})
-	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("id") int id, @ApiIgnore Pagination pagination){
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name="page", paramType="query", defaultValue="1"),
+//		@ApiImplicitParam(name="limit", paramType="query", defaultValue="15")
+//	})
+	
+//	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("id") int id, @ApiIgnore Pagination pagination){
+//		
+	public ResponseEntity<Map<String,Object>> findRestByCategoryId(@PathVariable("id") int id, Pagination pagination){
 		ArrayList<Restaurant> Restaurant = restaurantService.findByCategoryId(id,  pagination);
-
+		pagination.setTotalCount(restaurantService.countFindByCatID());
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
 		map.put("MESSAGE","RECORDS FOUND!");
