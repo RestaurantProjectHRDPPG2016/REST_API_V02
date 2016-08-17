@@ -150,7 +150,6 @@ public interface RestaurantRepository {
 			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
 			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
-			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+" ORDER BY rest_id DESC"
 			+ "	LIMIT "
 			+ "		#{limit} "
