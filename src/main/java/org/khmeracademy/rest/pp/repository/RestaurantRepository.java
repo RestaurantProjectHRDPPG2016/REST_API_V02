@@ -84,22 +84,22 @@ public interface RestaurantRepository {
 							+ "</script>";
 	@Insert(Telephones)
 	boolean insertTelephone(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
-	
+
 //	
 //	Update 
 	
 	@Update("UPDATE rest_restaurant SET"
-			+ "(c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},province=#{province},district=#{district},commune=#{commune} "
-			+ "WHERE rest_id=#{my_id) ")
+			+ " c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},district=#{district},commune=#{commune} "
+			+ "WHERE rest_id=#{id}")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
-    int updateMyObject_Annotation(Restaurant restaurant);
+    boolean updateMyObject_Annotation(Restaurant restaurant);
 	
 	final String updateMenus  = "<script>"
 			+ " <foreach  collection='menus' item='menu' separator=','>"
 			+ "		UPDTE rest_menu SET "
-			+ "							rest_id#{my_id}, "
+			+ "							rest_id=#{my_id}, "
 			+ "							name=#{menu.name}, "
 			+ "							url=#{menu.url}"
 			+ "	</foreach>"
@@ -121,9 +121,9 @@ public interface RestaurantRepository {
 	
 	final String updateTelephones = "<script> "
 							+ "	<foreach  collection='telephones' item='telephone' separator=','>"
-							+ "		UPDATE rest_telephone"
+							+ "		UPDATE rest_telephone SET "
 							+ " 			rest_id=#{my_id},"
-							+ "			telephone=#{telephone.tel})"
+							+ "			telephone=#{telephone.tel}"
 							+ "			</foreach>"
 							+ "</script>";
 	@Update(updateTelephones)
@@ -150,11 +150,11 @@ public interface RestaurantRepository {
 			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
 			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
-			+" ORDER BY rest_id DESC"
+			+ " ORDER BY Rest.rest_id DESC"
 			+ "	LIMIT "
-			+ "		#{limit} "
+			+ "		#{pagination.limit} "
 			+ "	OFFSET "
-			+ "		#{offset}")
+			+ "		#{pagination.offset}")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -171,7 +171,7 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findAll(Pagination pagination);
+	ArrayList<Restaurant> findAll( @Param("pagination") Pagination pagination);
 	
 	@Select("SELECT COUNT(*) FROM rest_restaurant")
 	public long countFindAll();
