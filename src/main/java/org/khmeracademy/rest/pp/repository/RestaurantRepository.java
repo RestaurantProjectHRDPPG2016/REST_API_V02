@@ -2,6 +2,7 @@ package org.khmeracademy.rest.pp.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -11,11 +12,14 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.jdbc.SQL;
 import org.khmeracademy.rest.pp.entity.Images;
 import org.khmeracademy.rest.pp.entity.Menu;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.Telephone;
+import org.khmeracademy.rest.pp.filter.RestaurantFilter;
 import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.stereotype.Repository;
 
@@ -131,30 +135,34 @@ public interface RestaurantRepository {
 	
 //	selest
 	
-	@Select("SELECT "
-			+ "Rest.rest_id, "
-			+ "Rest.c_id, "
-			+ "Rest.name, "
-			+ "Rest.description, "
-			+ "Rest.delivery, "
-			+ "Rest.home, "
-			+ "Rest.street, "
-			+ "Rest.province, "
-			+ "Rest.district, "
-			+ "Rest.commune, "
-			+ "Rest.create_date, "
-			+ " Province.khmer_name as location_province, "
-			+ " District.khmer_name as location_district, "
-			+ " Commune.khmer_name as location_commune "
-			+ " FROM rest_restaurant Rest "
-			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
-			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
-			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
-			+ " ORDER BY Rest.rest_id DESC"
-			+ "	LIMIT "
-			+ "		#{pagination.limit} "
-			+ "	OFFSET "
-			+ "		#{pagination.offset}")
+//	@Select("SELECT "
+//			+ "Rest.rest_id, "
+//			+ "Rest.c_id, "
+//			+ "Rest.name, "
+//			+ "Rest.description, "
+//			+ "Rest.delivery, "
+//			+ "Rest.home, "
+//			+ "Rest.street, "
+//			+ "Rest.province, "
+//			+ "Rest.district, "
+//			+ "Rest.commune, "
+//			+ "Rest.create_date, "
+//			+ " Province.khmer_name as location_province, "
+//			+ " District.khmer_name as location_district, "
+//			+ " Commune.khmer_name as location_commune "
+//			+ " FROM rest_restaurant Rest "
+//			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
+//			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
+//			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
+//			+ " WHERE Rest.name LIKE '%' ||  #{filter.name} || '%' "
+//			+ " AND Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%' "
+//			+ " AND Rest.province LIKE '%' || #{get​province} || '%' "
+//			+ " ORDER BY Rest.rest_id DESC"
+//			+ "	LIMIT "
+//			+ "		#{pagination.limit} "
+//			+ "	OFFSET "
+//			+ "		#{pagination.offset}")
+	@SelectProvider(type = RestaurantProvider.class, method = "findAll")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -171,10 +179,13 @@ public interface RestaurantRepository {
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findAll( @Param("pagination") Pagination pagination);
+//	ArrayList<Restaurant> findAll(@Param("get​province") String get​province ,@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
+	ArrayList<Restaurant> findAll(@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
 	
-	@Select("SELECT COUNT(*) FROM rest_restaurant")
-	public long countFindAll();
+//	@Select("SELECT COUNT(*) FROM rest_restaurant WHERE name LIKE '%' || #{filter.name} || '%'"
+//			+ " AND c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%' AND province LIKE '%' || #{filter.province} || '%'")
+	@SelectProvider(type = RestaurantProvider.class, method = "count")
+	public long countFindAll(@Param("filter") RestaurantFilter filter);
 	
 	@Select("SELECT rest_img_id,rest_id, url FROM rest_rest_image WHERE rest_id=#{rest_id}")
 	@Results(value = {
@@ -353,5 +364,66 @@ public interface RestaurantRepository {
 			+ " WHERE T.rest_type_id "
 			+" =#{id} ")
 	public long countFindByTypeID(int id);
+	
+	class RestaurantProvider{
+		public static String findAll(Map<String, Object> param) {
+			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
+			System.out.println(filter);
+			String sql = new SQL() {
+				{
+					SELECT(""
+							+ "Rest.rest_id, "
+							+ "Rest.c_id, "
+							+ "Rest.name, "
+							+ "Rest.description, "
+							+ "Rest.delivery, "
+							+ "Rest.home, "
+							+ "Rest.street, "
+							+ "Rest.province, "
+							+ "Rest.district, "
+							+ "Rest.commune, "
+							+ "Rest.create_date, "
+							+ "Province.khmer_name as location_province, "
+							+ "District.khmer_name as location_district, "
+							+ "Commune.khmer_name as location_commune ");
+					FROM("rest_restaurant Rest");
+					INNER_JOIN("rest_locations Province ON Province.id = Rest.province::INTEGER");
+					INNER_JOIN("rest_locations District ON District.id = Rest.district::INTEGER");
+					INNER_JOIN("rest_locations Commune ON Commune.id = Rest.commune::INTEGER");
+					if (filter.getName() != null && !"".equals(filter.getName())) {
+						WHERE("Rest.name LIKE '%' ||  #{filter.name} || '%'");
+					}
+					if (filter.getC_id() != null && !"".equals(filter.getC_id())) {
+						WHERE("Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%'");
+					}
+					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
+						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
+					}
+					ORDER_BY("Rest.rest_id DESC OFFSET #{pagination.offset} LIMIT #{pagination.limit}");
+				}
+			}.toString();
+			return sql;
+		}
+
+		public static String count(Map<String, Object> param) {
+			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
+			System.out.println(filter);
+			return new SQL() {
+				{
+					SELECT("COUNT(Rest.rest_id)");
+					FROM("rest_restaurant Rest");
+					if (filter.getName() != null && !"".equals(filter.getName())) {
+						WHERE("Rest.name LIKE '%' ||  #{filter.name} || '%'");
+					}
+					if (filter.getC_id() != null && !"".equals(filter.getC_id())) {
+						WHERE("Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%'");
+					}
+					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
+						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
+					}
+				}
+			}.toString();
+		}
+	}
 	
 }
