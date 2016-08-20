@@ -23,12 +23,12 @@ public class SlideController {
 	
 	@RequestMapping(value="/slide", method=RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>>findAll(){
-		ArrayList<Slide> slide = slideService.findAll();
+		ArrayList<Slide> myslide = slideService.findAll();
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE", "200");
 		map.put("MESSAGE", "RECODES FOUND!");
-		map.put("DATA", slide);
+		map.put("DATA", myslide);
 		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK) ;
 	}
 	
@@ -51,7 +51,7 @@ public class SlideController {
 		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/slide{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/slide/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> remove(@PathVariable("id") int id){
 		Map<String, Object> map = new HashMap<>();
 		boolean status = slideService.remove(id);

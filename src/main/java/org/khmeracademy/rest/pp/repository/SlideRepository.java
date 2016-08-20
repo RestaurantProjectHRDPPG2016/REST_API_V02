@@ -14,27 +14,27 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SlideRepository {
 
-	@Select("SELECT * FROM rest_slide")
+	@Select("SELECT * FROM rest_slide "
+			+ "WHERE status = '1' ")
 	@Results({
-		@Result(property="id", column="s_id"),
+		@Result(property="s_id", column="s_id"),
 		@Result(property="name", column="name"),
 		@Result(property="description", column="description"),
-		@Result(property="status", column="status"),
 		@Result(property="url", column="url")
 	})
 	ArrayList<Slide> findAll();
 	
 	@Insert("INSERT INTO rest_slide "
-			+ "(id, name, description, status, url)"
+			+ "( name, description, status, url)"
 			+ "VALUES"
-			+ "(#{s_id}, #{name}, #{desciption}, #{status}, #{url})")
+			+ "( #{name}, #{description}, #{status}, #{url})")
 	boolean save(Slide slide);
 	
-	@Delete("DELETE FROM rest_slide WHERE s_id=#{id}")
+	@Delete("DELETE FROM rest_slide WHERE s_id=#{s_id}")
 	boolean remove(int id);
 	
-	@Update("UPDATE rest_slide SET"
-			+ "s_id=#{id}, name=#{name}, description=#{description}, "
-			+ "status=#{status}, url=#{url} ")
+	@Update("UPDATE rest_slide SET "
+			+ " name=#{name}, description=#{description}, "
+			+ "status=#{status}, url=#{url} WHERE s_id=#{s_id} ")
 	boolean update(Slide slide);
 }
