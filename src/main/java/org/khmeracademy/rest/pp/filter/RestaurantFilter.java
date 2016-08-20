@@ -6,12 +6,16 @@ public class RestaurantFilter {
 	private String name;
 	private String province;
 	private String type_id;
+	private String district;
+	private String commune;
 	
 	public RestaurantFilter(){
 		name = "";
 		c_id = "";
 		type_id = "";
 		province ="";
+		district = "";
+		commune = "";
 	}
 
 	public int getId() {
@@ -58,6 +62,22 @@ public class RestaurantFilter {
 	public String toString() {
 		return "RestaurantFilter [id=" + id + ", c_id=" + c_id + ", name=" + name + ", province=" + province
 				+ ", type_id=" + type_id + "]";
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getCommune() {
+		return commune;
+	}
+
+	public void setCommune(String commune) {
+		this.commune = commune;
 	}
 	
 }

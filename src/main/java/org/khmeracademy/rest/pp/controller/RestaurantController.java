@@ -207,7 +207,11 @@ public class RestaurantController {
 	    @ApiImplicitParam(name = "type_id", dataType = "string", paramType = "query", defaultValue="",
         	value = "Number of records per page."),
 	    @ApiImplicitParam(name = "province", dataType = "string", paramType = "query", defaultValue="",
-        	value = "Number of records per page.")
+        	value = "Number of records per page."),
+	    @ApiImplicitParam(name = "district", dataType = "string", paramType = "query", defaultValue="",
+    	value = "District."),
+	    @ApiImplicitParam(name = "commune", dataType = "string", paramType = "query", defaultValue="",
+    	value = "Commune.")
 	})
 	@RequestMapping(value="/restaurant" , method = RequestMethod.GET)
 //	public ResponseEntity<Map<String,Object>> findRestaurant(@RequestParam("limit") int limit , @RequestParam("page") int page){

@@ -24,6 +24,31 @@ public class Restaurant {
 	public Restaurant(){
 		
 	}
+	
+
+	public Restaurant(int id, int sub_id, String name, String desc, String delivery, String home, String street,
+			String type, String province, String district, String commune, String latitude, String longitude,
+			String create_date, List<Telephone> telephone, List<Menu> menus, List<Images> images) {
+		super();
+		this.id = id;
+		this.sub_id = sub_id;
+		this.name = name;
+		this.desc = desc;
+		this.delivery = delivery;
+		this.home = home;
+		this.street = street;
+		this.type = type;
+		this.province = province;
+		this.district = district;
+		this.commune = commune;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.create_date = create_date;
+		this.telephone = telephone;
+		this.menus = menus;
+		this.images = images;
+	}
+
 
 	public int getId() {
 		return id;

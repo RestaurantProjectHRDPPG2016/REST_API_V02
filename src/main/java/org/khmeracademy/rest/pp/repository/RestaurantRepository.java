@@ -46,10 +46,10 @@ public interface RestaurantRepository {
 //	
 //	INSERT
 	@Insert("INSERT INTO rest_restaurant "
-			+ "(c_id,name,description,delivery,home,street,province,district,commune) "
+			+ "(c_id,name,description,delivery,home,street,province,district,commune,latitude,longitude) "
 			+ "VALUES"
-			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{province},#{district},#{commune})") 
-    
+			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{province},#{district},#{commune},#{latitude},#{longitude})") 
+    			
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
     int insertMyObject_Annotation(Restaurant restaurant);
@@ -93,7 +93,9 @@ public interface RestaurantRepository {
 //	Update 
 	
 	@Update("UPDATE rest_restaurant SET"
-			+ " c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},district=#{district},commune=#{commune} "
+			+ " c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},"
+			+ "home=#{home},street=#{street},district=#{district},commune=#{commune},"
+			+ "latitude=#{latitude}, longitude=#{longitude}"
 			+ "WHERE rest_id=#{id}")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
@@ -101,22 +103,26 @@ public interface RestaurantRepository {
     boolean updateMyObject_Annotation(Restaurant restaurant);
 	
 	final String updateMenus  = "<script>"
-			+ " <foreach  collection='menus' item='menu' separator=','>"
-			+ "		UPDTE rest_menu SET "
-			+ "							rest_id=#{my_id}, "
+			+ " <foreach  collection='menus' item='menu' separator=';'>"
+			+ "		UPDATE rest_menu SET "
 			+ "							name=#{menu.name}, "
 			+ "							url=#{menu.url}"
+			+ "							WHERE rest_id=#{my_id} "
 			+ "	</foreach>"
 			+ "</script>";
+	
+
+	
 	@Update(updateMenus)
 	boolean updateMenu(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
 	
 	
 	final String updateImage  = "<script>"
-			+ " <foreach  collection='images' item='image' separator=','>"
+			+ " <foreach  collection='images' item='image' separator=';'>"
 			+ "		UPDATE rest_rest_image SET "
-			+ "							rest_id=#{my_id}, "
 			+ "							url=#{image.url}"
+			+ "						"
+			+ "	WHERE rest_id=#{my_id}  "
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateImage)
@@ -124,10 +130,10 @@ public interface RestaurantRepository {
 	
 	
 	final String updateTelephones = "<script> "
-							+ "	<foreach  collection='telephones' item='telephone' separator=','>"
+							+ "	<foreach  collection='telephones' item='telephone' separator=';'>"
 							+ "		UPDATE rest_telephone SET "
-							+ " 			rest_id=#{my_id},"
 							+ "			telephone=#{telephone.tel}"
+							+ "			WHERE rest_id=#{my_id}"
 							+ "			</foreach>"
 							+ "</script>";
 	@Update(updateTelephones)
@@ -175,6 +181,8 @@ public interface RestaurantRepository {
 		@Result(property="district",column="location_district"),
 		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
+		@Result(property="latitude",column="latitude"),
+		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
@@ -227,6 +235,8 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
+			+ "Rest.latitude, "
+			+ "Rest.longitude, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -247,6 +257,8 @@ public interface RestaurantRepository {
 		@Result(property="district",column="location_district"),
 		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
+		@Result(property="latitude",column="latitude"),
+		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
@@ -399,6 +411,12 @@ public interface RestaurantRepository {
 					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
 						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
 					}
+					if (filter.getDistrict() != null && !"".equals(filter.getDistrict())) {
+						WHERE("Rest.district LIKE '%' || #{filter.district} || '%'");
+					}
+					if (filter.getCommune() != null && !"".equals(filter.getCommune())) {
+						WHERE("Rest.commune LIKE '%' || #{filter.commune} || '%'");
+					}
 					ORDER_BY("Rest.rest_id DESC OFFSET #{pagination.offset} LIMIT #{pagination.limit}");
 				}
 			}.toString();
@@ -420,6 +438,12 @@ public interface RestaurantRepository {
 					}
 					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
 						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
+					}
+					if (filter.getDistrict() != null && !"".equals(filter.getDistrict())) {
+						WHERE("Rest.district LIKE '%' || #{filter.district} || '%'");
+					}
+					if (filter.getCommune() != null && !"".equals(filter.getCommune())) {
+						WHERE("Rest.commune LIKE '%' || #{filter.commune} || '%'");
 					}
 				}
 			}.toString();
