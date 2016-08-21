@@ -70,5 +70,9 @@ public class RestApiConfiguration extends WebMvcConfigurerAdapter {
        registry
            .addResourceHandler("/webjars/**")
            .addResourceLocations("classpath:/META-INF/resources/webjars/");
+       
+       registry
+       .addResourceHandler("/resources/upload/**")
+       .addResourceLocations("/resources/upload/");
    }
 }

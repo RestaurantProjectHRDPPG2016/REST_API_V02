@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UploadRest {
+	private int id;
 	private String name;
 	private String description;
 	private String delivery;
@@ -32,10 +33,11 @@ public class UploadRest {
 	public UploadRest(){
 		
 	}
-	public UploadRest(String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
+	public UploadRest(int id,String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
 			String home, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
 			List<MultipartFile> image) {
 		super();
+		this.id=id;
 		this.name = name;
 		this.description = description;
 		this.delivery = delivery;
@@ -146,6 +148,12 @@ public class UploadRest {
 	}
 	public void setCreate_date(String create_date) {
 		this.create_date = create_date;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

@@ -2,11 +2,8 @@
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.khmeracademy.rest.pp.entity.RestImgFile;
 import org.khmeracademy.rest.pp.entity.Restaurant;
-import org.khmeracademy.rest.pp.entity.UploadRest;
+import org.khmeracademy.rest.pp.filter.RestaurantFilter;
 import org.khmeracademy.rest.pp.repository.RestaurantRepository;
 import org.khmeracademy.rest.pp.service.RestaurantService;
 import org.khmeracademy.rest.pp.utilities.Pagination;
@@ -40,7 +37,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 		//System.out.println(restaurant.getTel().get(0).getTel() + "");
 		try{
-			restaurantRepository.insertTelephone(restaurant.getTel(), restaurant.getId());
+			restaurantRepository.insertTelephone(restaurant.getTelephone(), restaurant.getId());
 			restaurantRepository.insertMenu(restaurant.getMenus(), restaurant.getId());
 
 			restaurantRepository.insertImage(restaurant.getImages(), restaurant.getId());
@@ -59,7 +56,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 		//System.out.println(restaurant.getTel().get(0).getTel() + "");
 		try{
-			restaurantRepository.updateTelephone(restaurant.getTel(), restaurant.getId());
+			restaurantRepository.updateTelephone(restaurant.getTelephone(), restaurant.getId());
 			restaurantRepository.updateMenu(restaurant.getMenus(), restaurant.getId());
 
 			restaurantRepository.updatetImage(restaurant.getImages(), restaurant.getId());
@@ -69,8 +66,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return true;
 	}
 	@Override
-	public ArrayList<Restaurant> findAll(Pagination pagination) {
-		return restaurantRepository.findAll(pagination);
+	public ArrayList<Restaurant> findAll(String get​province,RestaurantFilter filter, Pagination pagination) {
+//		return restaurantRepository.findAll(get​province,filter, pagination);
+		return restaurantRepository.findAll(filter, pagination);
 	}
 	
 
@@ -91,8 +89,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 	}
 
 	@Override
-	public long CountfindAll() {
-		return restaurantRepository.countFindAll();
+	public long CountfindAll(RestaurantFilter filter) {
+		return restaurantRepository.countFindAll(filter);
 	}
 
 	@Override

@@ -78,7 +78,7 @@ public class FileUploadServiceImpl implements FileUploadService{
 			if(folder=="" || folder==null)
 				folder = "DEFAULT";
 			
-			String PROJECT_PATH = "/resources/MOL/UPLOAD/" + folder + "/";
+			String PROJECT_PATH = "/resources/upload/" + folder + "/";
 			String UPLOAD_PATH = request.getServletContext().getRealPath(PROJECT_PATH);
 			
 			java.io.File path = new java.io.File(UPLOAD_PATH);

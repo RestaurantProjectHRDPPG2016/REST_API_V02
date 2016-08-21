@@ -2,6 +2,7 @@ package org.khmeracademy.rest.pp.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -11,11 +12,14 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.jdbc.SQL;
 import org.khmeracademy.rest.pp.entity.Images;
 import org.khmeracademy.rest.pp.entity.Menu;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.entity.Telephone;
+import org.khmeracademy.rest.pp.filter.RestaurantFilter;
 import org.khmeracademy.rest.pp.utilities.Pagination;
 import org.springframework.stereotype.Repository;
 
@@ -42,10 +46,10 @@ public interface RestaurantRepository {
 //	
 //	INSERT
 	@Insert("INSERT INTO rest_restaurant "
-			+ "(c_id,name,description,delivery,home,street,province,district,commune) "
+			+ "(c_id,name,description,delivery,home,street,province,district,commune,latitude,longitude) "
 			+ "VALUES"
-			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{province},#{district},#{commune})") 
-    
+			+ " (#{sub_id},#{name},#{desc},#{delivery},#{home},#{street},#{province},#{district},#{commune},#{latitude},#{longitude})") 
+    			
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
     int insertMyObject_Annotation(Restaurant restaurant);
@@ -84,35 +88,50 @@ public interface RestaurantRepository {
 							+ "</script>";
 	@Insert(Telephones)
 	boolean insertTelephone(@Param("telephones") List<Telephone> telephone, @Param("my_id") int r_id);
-	
+
 //	
 //	Update 
 	
 	@Update("UPDATE rest_restaurant SET"
-			+ "(c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},home=#{home},street=#{street},province=#{province},district=#{district},commune=#{commune} "
-			+ "WHERE rest_id=#{my_id) ")
+			+ " c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},"
+			+ "home=#{home},street=#{street},district=#{district},commune=#{commune},"
+			+ "latitude=#{latitude}, longitude=#{longitude}"
+			+ "WHERE rest_id=#{id}")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
-    int updateMyObject_Annotation(Restaurant restaurant);
+    boolean updateMyObject_Annotation(Restaurant restaurant);
+	
+//	final String updateMenus  = "<script>"
+//			+ " <foreach  collection='menus' item='menu' separator=';'>"
+//			+ "		UPDATE rest_menu SET "
+//			+ "							name=#{menu.name}, "
+//			+ "							url=#{menu.url}"
+//			+ "							WHERE rest_id=#{my_id} "
+//			+ "	</foreach>"
+//			+ "</script>";
+	
 	
 	final String updateMenus  = "<script>"
-			+ " <foreach  collection='menus' item='menu' separator=','>"
-			+ "		UPDTE rest_menu SET "
-			+ "							rest_id#{my_id}, "
-			+ "							name=#{menu.name}, "
-			+ "							url=#{menu.url}"
+			+ " <foreach  collection='my_id' item='my_id' separator=';'>"
+			+ "		UPDATE rest_menu SET "
+			+ "							name=#{my_id.name}, "
+			+ "							url=#{my_id.url}"
+			+ "							WHERE rest_id=#{my_id} "
 			+ "	</foreach>"
 			+ "</script>";
+
+	
 	@Update(updateMenus)
 	boolean updateMenu(@Param("menus") List<Menu>menus,@Param("my_id") int r_id);	
 	
 	
 	final String updateImage  = "<script>"
-			+ " <foreach  collection='images' item='image' separator=','>"
+			+ " <foreach  collection='images' item='image' separator=';'>"
 			+ "		UPDATE rest_rest_image SET "
-			+ "							rest_id=#{my_id}, "
 			+ "							url=#{image.url}"
+			+ "						"
+			+ "	WHERE rest_id=#{my_id}  "
 			+ "	</foreach>"
 			+ "</script>";
 	@Update(updateImage)
@@ -120,10 +139,10 @@ public interface RestaurantRepository {
 	
 	
 	final String updateTelephones = "<script> "
-							+ "	<foreach  collection='telephones' item='telephone' separator=','>"
-							+ "		UPDATE rest_telephone"
-							+ " 			rest_id=#{my_id},"
-							+ "			telephone=#{telephone.tel})"
+							+ "	<foreach  collection='telephones' item='telephone' separator=';'>"
+							+ "		UPDATE rest_telephone SET "
+							+ "			telephone=#{telephone.tel}"
+							+ "			WHERE rest_id=#{my_id}"
 							+ "			</foreach>"
 							+ "</script>";
 	@Update(updateTelephones)
@@ -131,30 +150,34 @@ public interface RestaurantRepository {
 	
 //	selest
 	
-	@Select("SELECT "
-			+ "Rest.rest_id, "
-			+ "Rest.c_id, "
-			+ "Rest.name, "
-			+ "Rest.description, "
-			+ "Rest.delivery, "
-			+ "Rest.home, "
-			+ "Rest.street, "
-			+ "Rest.province, "
-			+ "Rest.district, "
-			+ "Rest.commune, "
-			+ "Rest.create_date, "
-			+ " Province.khmer_name as location_province, "
-			+ " District.khmer_name as location_district, "
-			+ " Commune.khmer_name as location_commune "
-			+ " FROM rest_restaurant Rest "
-			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
-			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
-			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
-			+" ORDER BY rest_id DESC"
-			+ "	LIMIT "
-			+ "		#{limit} "
-			+ "	OFFSET "
-			+ "		#{offset}")
+//	@Select("SELECT "
+//			+ "Rest.rest_id, "
+//			+ "Rest.c_id, "
+//			+ "Rest.name, "
+//			+ "Rest.description, "
+//			+ "Rest.delivery, "
+//			+ "Rest.home, "
+//			+ "Rest.street, "
+//			+ "Rest.province, "
+//			+ "Rest.district, "
+//			+ "Rest.commune, "
+//			+ "Rest.create_date, "
+//			+ " Province.khmer_name as location_province, "
+//			+ " District.khmer_name as location_district, "
+//			+ " Commune.khmer_name as location_commune "
+//			+ " FROM rest_restaurant Rest "
+//			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
+//			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
+//			+ " INNER JOIN rest_locations Commune ON Commune.id = Rest.commune::INTEGER "
+//			+ " WHERE Rest.name LIKE '%' ||  #{filter.name} || '%' "
+//			+ " AND Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%' "
+//			+ " AND Rest.province LIKE '%' || #{get​province} || '%' "
+//			+ " ORDER BY Rest.rest_id DESC"
+//			+ "	LIMIT "
+//			+ "		#{pagination.limit} "
+//			+ "	OFFSET "
+//			+ "		#{pagination.offset}")
+	@SelectProvider(type = RestaurantProvider.class, method = "findAll")
 	@Results({
 		@Result(property="id",column="rest_id"),
 		@Result(property="sub_id",column="c_id"),
@@ -167,14 +190,19 @@ public interface RestaurantRepository {
 		@Result(property="district",column="location_district"),
 		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
+		@Result(property="latitude",column="latitude"),
+		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
 	})
-	ArrayList<Restaurant> findAll(Pagination pagination);
+//	ArrayList<Restaurant> findAll(@Param("get​province") String get​province ,@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
+	ArrayList<Restaurant> findAll(@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
 	
-	@Select("SELECT COUNT(*) FROM rest_restaurant")
-	public long countFindAll();
+//	@Select("SELECT COUNT(*) FROM rest_restaurant WHERE name LIKE '%' || #{filter.name} || '%'"
+//			+ " AND c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%' AND province LIKE '%' || #{filter.province} || '%'")
+	@SelectProvider(type = RestaurantProvider.class, method = "count")
+	public long countFindAll(@Param("filter") RestaurantFilter filter);
 	
 	@Select("SELECT rest_img_id,rest_id, url FROM rest_rest_image WHERE rest_id=#{rest_id}")
 	@Results(value = {
@@ -216,6 +244,8 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
+			+ "Rest.latitude, "
+			+ "Rest.longitude, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -236,6 +266,8 @@ public interface RestaurantRepository {
 		@Result(property="district",column="location_district"),
 		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
+		@Result(property="latitude",column="latitude"),
+		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
@@ -353,5 +385,78 @@ public interface RestaurantRepository {
 			+ " WHERE T.rest_type_id "
 			+" =#{id} ")
 	public long countFindByTypeID(int id);
+	
+	class RestaurantProvider{
+		public static String findAll(Map<String, Object> param) {
+			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
+			System.out.println(filter);
+			String sql = new SQL() {
+				{
+					SELECT(""
+							+ "Rest.rest_id, "
+							+ "Rest.c_id, "
+							+ "Rest.name, "
+							+ "Rest.description, "
+							+ "Rest.delivery, "
+							+ "Rest.home, "
+							+ "Rest.street, "
+							+ "Rest.province, "
+							+ "Rest.district, "
+							+ "Rest.commune, "
+							+ "Rest.create_date, "
+							+ "Province.khmer_name as location_province, "
+							+ "District.khmer_name as location_district, "
+							+ "Commune.khmer_name as location_commune ");
+					FROM("rest_restaurant Rest");
+					INNER_JOIN("rest_locations Province ON Province.id = Rest.province::INTEGER");
+					INNER_JOIN("rest_locations District ON District.id = Rest.district::INTEGER");
+					INNER_JOIN("rest_locations Commune ON Commune.id = Rest.commune::INTEGER");
+					if (filter.getName() != null && !"".equals(filter.getName())) {
+						WHERE("Rest.name LIKE '%' ||  #{filter.name} || '%'");
+					}
+					if (filter.getC_id() != null && !"".equals(filter.getC_id())) {
+						WHERE("Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%'");
+					}
+					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
+						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
+					}
+					if (filter.getDistrict() != null && !"".equals(filter.getDistrict())) {
+						WHERE("Rest.district LIKE '%' || #{filter.district} || '%'");
+					}
+					if (filter.getCommune() != null && !"".equals(filter.getCommune())) {
+						WHERE("Rest.commune LIKE '%' || #{filter.commune} || '%'");
+					}
+					ORDER_BY("Rest.rest_id DESC OFFSET #{pagination.offset} LIMIT #{pagination.limit}");
+				}
+			}.toString();
+			return sql;
+		}
+
+		public static String count(Map<String, Object> param) {
+			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
+			System.out.println(filter);
+			return new SQL() {
+				{
+					SELECT("COUNT(Rest.rest_id)");
+					FROM("rest_restaurant Rest");
+					if (filter.getName() != null && !"".equals(filter.getName())) {
+						WHERE("Rest.name LIKE '%' ||  #{filter.name} || '%'");
+					}
+					if (filter.getC_id() != null && !"".equals(filter.getC_id())) {
+						WHERE("Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%'");
+					}
+					if (filter.getProvince() != null && !"".equals(filter.getProvince())) {
+						WHERE("Rest.province LIKE '%' || #{filter.province} || '%'");
+					}
+					if (filter.getDistrict() != null && !"".equals(filter.getDistrict())) {
+						WHERE("Rest.district LIKE '%' || #{filter.district} || '%'");
+					}
+					if (filter.getCommune() != null && !"".equals(filter.getCommune())) {
+						WHERE("Rest.commune LIKE '%' || #{filter.commune} || '%'");
+					}
+				}
+			}.toString();
+		}
+	}
 	
 }
