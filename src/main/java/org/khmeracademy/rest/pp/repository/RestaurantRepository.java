@@ -102,15 +102,24 @@ public interface RestaurantRepository {
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
     boolean updateMyObject_Annotation(Restaurant restaurant);
 	
+//	final String updateMenus  = "<script>"
+//			+ " <foreach  collection='menus' item='menu' separator=';'>"
+//			+ "		UPDATE rest_menu SET "
+//			+ "							name=#{menu.name}, "
+//			+ "							url=#{menu.url}"
+//			+ "							WHERE rest_id=#{my_id} "
+//			+ "	</foreach>"
+//			+ "</script>";
+	
+	
 	final String updateMenus  = "<script>"
-			+ " <foreach  collection='menus' item='menu' separator=';'>"
+			+ " <foreach  collection='my_id' item='my_id' separator=';'>"
 			+ "		UPDATE rest_menu SET "
-			+ "							name=#{menu.name}, "
-			+ "							url=#{menu.url}"
+			+ "							name=#{my_id.name}, "
+			+ "							url=#{my_id.url}"
 			+ "							WHERE rest_id=#{my_id} "
 			+ "	</foreach>"
 			+ "</script>";
-	
 
 	
 	@Update(updateMenus)
