@@ -218,6 +218,7 @@ public class RestaurantController {
 //	
 	public ResponseEntity<Map<String,Object>> findRestaurant(@ApiIgnore RestaurantFilter filter, @ApiIgnore Pagination pagination){
 		System.out.println(filter.getProvince());
+		System.out.println(filter);
 //		Pagination pagination = new Pagination();
 //	    pagination.setPage(page);
 //		pagination.setLimit(limit);
@@ -225,7 +226,7 @@ public class RestaurantController {
 		//restaurantService.
 		
 		ArrayList<Restaurant> Restaurant = restaurantService.findAll(filter.getProvince() ,filter, pagination);
-
+		System.out.println("Rest " + Restaurant.size());
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
 		map.put("MESSAGE","RECORDS FOUND!");
