@@ -40,6 +40,9 @@ public class RestaurantController {
 	@RequestMapping(value="/restaurant" , method = RequestMethod.POST)
 	public ResponseEntity<Map<String , Object>> saveRestaurant(UploadRest uploadRest, HttpServletRequest request){
 		
+		System.out.println(uploadRest.getMenus().size());
+		System.out.println(uploadRest.getImage().size());
+		
 		Map<String , Object> map = new HashMap<String , Object>();
 		try{
 		System.out.println(uploadRest);
@@ -47,7 +50,6 @@ public class RestaurantController {
 		List<Menu> menus = new ArrayList<>();
 		
 		for (String str  : restImage.getNames()) {
-			System.out.println(restImage.getProjectPath() + str);
 			Menu m = new Menu(0, 0, null, restImage.getProjectPath() + str);
 			menus.add(m);
 		}
@@ -55,7 +57,6 @@ public class RestaurantController {
 		
 		RestImgFile menuImage = fileUploadService.upload(uploadRest.getMenus(), "Restaurant_Image",request);
 		for(String str1 : menuImage.getNames()){
-				System.out.println(menuImage.getProjectPath() + str1);
 				Images img = new Images();
 				img.setUrl(menuImage.getProjectPath() + str1);
 				images.add(img);

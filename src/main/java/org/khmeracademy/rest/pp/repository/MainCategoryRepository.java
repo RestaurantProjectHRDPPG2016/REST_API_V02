@@ -38,4 +38,14 @@ public interface MainCategoryRepository {
 	
 	@Select("SELECT COUNT (*) from rest_categories")
 	public long totalCount();
+	
+	@Select("SELECT * FROM rest_categories ORDER BY c_id DESC")
+	@Results({
+		@Result(property="id",column="c_id"),
+		@Result(property="t_id",column="rest_type_id"),
+		@Result(property="name",column="c_name"),
+		@Result(property="img1",column="img1"),
+		@Result(property="img2",column="img2")
+	})
+	ArrayList<MainCategory> findAllWithoutPagination();
 }

@@ -11,4 +11,6 @@ public interface MainCategoryService {
 	boolean save(MainCategory mainCategory);
 	boolean update(MainCategory mainCategory);
 	ArrayList<MainCategory> findAll(Pagination pagination);
+	public ArrayList<MainCategory> findAll();
+	long totalCount();
 }

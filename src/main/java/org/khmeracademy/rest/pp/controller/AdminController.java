@@ -25,8 +25,14 @@ public class AdminController {
 	
 	@RequestMapping(value="/maincategory", method= RequestMethod.GET)
 	public ResponseEntity<Map<String,Object>> findAll(Pagination pagination){
-		ArrayList<MainCategory> mainCategory = mainCategoryService.findAll(pagination);
-
+		pagination.setTotalCount(mainCategoryService.totalCount());
+		ArrayList<MainCategory> mainCategory = null;
+		System.out.println("LIMIT ==> " + pagination.getLimit());
+		if(pagination.getLimit()==10){
+			mainCategory = mainCategoryService.findAll();
+		}else{
+			mainCategory = mainCategoryService.findAll(pagination);
+		}
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE","200");
 		map.put("MESSAGE","RECORDS FOUND!");
@@ -34,6 +40,7 @@ public class AdminController {
 		map.put("Pagination", pagination);
 		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 	}
+	
 	@RequestMapping(value="/maincategory" , method = RequestMethod.POST)
 	public ResponseEntity<Map<String , Object>> save(@RequestBody MainCategory mainCategory){
 		Map<String , Object> map = new HashMap<String , Object>();

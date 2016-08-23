@@ -33,4 +33,16 @@ public class MainCategoryServiceImpl implements MainCategoryService {
 		return mainCategoryRepository.findAll(pagination);
 	}
 
+	@Override
+	public ArrayList<MainCategory> findAll() {
+		return mainCategoryRepository.findAllWithoutPagination();
+	}
+
+	@Override
+	public long totalCount() {
+		return mainCategoryRepository.totalCount();
+	}
+	
+	
+
 }
