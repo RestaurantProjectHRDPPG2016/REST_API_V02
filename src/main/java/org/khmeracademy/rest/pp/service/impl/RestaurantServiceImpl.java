@@ -1,6 +1,7 @@
 	package org.khmeracademy.rest.pp.service.impl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.filter.RestaurantFilter;
@@ -101,6 +102,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public long countFindByTypeID(int id) {
 		return restaurantRepository.countFindByTypeID(id) ;
+	}
+
+	@Override
+	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs) {
+		return restaurantRepository.deleteRestaurantImage(deletedImageIDs);
+	}
+
+	@Override
+	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
+		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
 	}
 
 

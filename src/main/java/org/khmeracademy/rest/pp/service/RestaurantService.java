@@ -1,6 +1,7 @@
 package org.khmeracademy.rest.pp.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.filter.RestaurantFilter;
@@ -17,4 +18,6 @@ public interface RestaurantService {
 	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
 	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
 	ArrayList<Restaurant> findByRestId(int id);
+	boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
+	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
 }

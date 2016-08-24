@@ -127,7 +127,7 @@ public class RestaurantController {
 	
 	
 	@RequestMapping(value="/restaurantUpdate" , method = RequestMethod.POST)
-	public ResponseEntity<Map<String , Object>> updateRestaurant(UploadRest uploadRest, HttpServletRequest request){
+	public ResponseEntity<Map<String , Object>> updateRestaurant(UploadRest  uploadRest, HttpServletRequest request){
 
 		Map<String , Object> map = new HashMap<String , Object>();
 		try{
@@ -155,6 +155,11 @@ public class RestaurantController {
 			Telephone telephone = new Telephone(0,0, tel);
 			tels.add(telephone);
 		}
+		
+		//uploadRest.getDeletedImageIds();
+		//uploadRest.getDeletedMenuIds();
+		//uploadRest.getId();
+		
 		
 		
 		Restaurant rest = new Restaurant();
