@@ -10,5 +10,6 @@ public interface UserLoginService {
 	boolean remove(int id);
 	boolean update(User user);*/
 	User loadUserByEmail(String email);
+	boolean save(User user);
 	
 }
