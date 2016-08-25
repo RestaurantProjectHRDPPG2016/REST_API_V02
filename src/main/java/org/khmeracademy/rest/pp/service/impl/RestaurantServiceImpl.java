@@ -104,16 +104,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantRepository.countFindByTypeID(id) ;
 	}
 
-	@Override
-	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs) {
-		return restaurantRepository.deleteRestaurantImage(deletedImageIDs);
-	}
-
-	@Override
-	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
-		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
-	}
-
+//	@Override
+//	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs) {
+//		return restaurantRepository.deleteRestaurantImage(deletedImageIDs);
+//	}
+//
+//	@Override
+//	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
+//		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
+//	}
+//
 
 
 }

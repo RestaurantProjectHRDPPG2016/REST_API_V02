@@ -22,8 +22,8 @@ public class UploadRest {
 	private List<Telephone> telephone;
 	private List<MultipartFile> menus;
 	private List<MultipartFile> image;
-	private List<Integer> deletedImageIds;
-	private List<Integer> deletedMenuIds;
+//	private List<Integer> deletedImageIds;
+//	private List<Integer> deletedMenuIds;
 	private List<String> telephones;
 	
 	public List<String> getTelephones() {
@@ -37,7 +37,7 @@ public class UploadRest {
 	}
 	public UploadRest(int id,String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
 			String home, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
-			List<MultipartFile> image,List<Integer> deletedImageIds,List<Integer> deletedMenuIds) {
+			List<MultipartFile> image) {
 		super();
 		this.id=id;
 		this.name = name;
@@ -52,8 +52,8 @@ public class UploadRest {
 		this.menus = menus;
 		this.image = image;
 		this.create_date = create_date;
-		this.deletedImageIds = deletedImageIds;
-		this.deletedMenuIds = deletedImageIds;
+//		this.deletedImageIds = deletedImageIds;
+//		this.deletedMenuIds = deletedImageIds;
 	}
 	
 	public String getProvince() {
@@ -159,18 +159,18 @@ public class UploadRest {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public List<Integer> getDeletedImageIds() {
-		return deletedImageIds;
-	}
-	public void setDeletedImageIds(List<Integer> deletedImageIds) {
-		this.deletedImageIds = deletedImageIds;
-	}
-	public List<Integer> getDeletedMenuIds() {
-		return deletedMenuIds;
-	}
-	public void setDeletedMenuIds(List<Integer> deletedMenuIds) {
-		this.deletedMenuIds = deletedMenuIds;
-	}
+//	public List<Integer> getDeletedImageIds() {
+//		return deletedImageIds;
+//	}
+//	public void setDeletedImageIds(List<Integer> deletedImageIds) {
+//		this.deletedImageIds = deletedImageIds;
+//	}
+//	public List<Integer> getDeletedMenuIds() {
+//		return deletedMenuIds;
+//	}
+//	public void setDeletedMenuIds(List<Integer> deletedMenuIds) {
+//		this.deletedMenuIds = deletedMenuIds;
+//	}
 	
 	
 	

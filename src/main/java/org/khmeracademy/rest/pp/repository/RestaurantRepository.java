@@ -389,24 +389,24 @@ public interface RestaurantRepository {
 	
 	/** Delete Rest & Menu Image **/
 	
-	@Delete(  "<script>"
-			+ "		DELETE FROM rest_rest_image WHERE rest_image_id IN "
-			+ "		<foreach collection='deletedImageIDs' item='id' open='(' separator=',' close=')'>"
-			+ "			#{id}"
-			+ "		</foreach>"
-			+ "</script>"
-	)
-	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
-	
-	@Delete(  "<script>"
-			+ "		DELETE FROM rest_menu WHERE menu_id IN "
-			+ "		<foreach collection='deletedMenuIDs' item='id' open='(' separator=',' close=')'>"
-			+ "			#{id}"
-			+ "		</foreach>"
-			+ "</script>"
-	)
-	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
-	
+//	@Delete(  "<script>"
+//			+ "		DELETE FROM rest_rest_image WHERE rest_image_id IN "
+//			+ "		<foreach collection='deletedImageIDs' item='id' open='(' separator=',' close=')'>"
+//			+ "			#{id}"
+//			+ "		</foreach>"
+//			+ "</script>"
+//	)
+//	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
+//	
+//	@Delete(  "<script>"
+//			+ "		DELETE FROM rest_menu WHERE menu_id IN "
+//			+ "		<foreach collection='deletedMenuIDs' item='id' open='(' separator=',' close=')'>"
+//			+ "			#{id}"
+//			+ "		</foreach>"
+//			+ "</script>"
+//	)
+//	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
+//	
 	
 	/******************************/
 	
