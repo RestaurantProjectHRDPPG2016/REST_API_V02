@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.aspectj.apache.bcel.generic.RET;
 import org.khmeracademy.rest.pp.entity.Restaurant;
 import org.khmeracademy.rest.pp.filter.RestaurantFilter;
 import org.khmeracademy.rest.pp.repository.RestaurantRepository;
@@ -50,21 +51,30 @@ public class RestaurantServiceImpl implements RestaurantService {
 
 	@Override
 	public boolean update(Restaurant restaurant) {
-		restaurantRepository.updateMyObject_Annotation(restaurant);
 		
-		System.out.println(restaurant.getId());
-		
-		
-		//System.out.println(restaurant.getTel().get(0).getTel() + "");
 		try{
-			restaurantRepository.updateTelephone(restaurant.getTelephone(), restaurant.getId());
-			restaurantRepository.updateMenu(restaurant.getMenus(), restaurant.getId());
-
-			restaurantRepository.updatetImage(restaurant.getImages(), restaurant.getId());
+			if (restaurantRepository.updateMyObject_Annotation(restaurant)){
+				System.out.println(restaurant.getId());
+				
+				if (restaurant.getImages() != null && !restaurant.getImages().isEmpty()){
+					restaurantRepository.insertImage(restaurant.getImages(), restaurant.getId());
+				}
+				
+				if (restaurant.getMenus() != null && !restaurant.getMenus().isEmpty()){
+					restaurantRepository.insertMenu(restaurant.getMenus(), restaurant.getId());
+				}
+				
+				if (restaurant.getTelephone() != null && !restaurant.getTelephone().isEmpty()){
+					restaurantRepository.updateTelephone(restaurant.getTelephone(), restaurant.getId());
+				}
+				
+				return true;
+			}
 		}catch(Exception e){
 			e.printStackTrace();
+			return false;
 		}
-		return true;
+		return false;
 	}
 	@Override
 	public ArrayList<Restaurant> findAll(String get​province,RestaurantFilter filter, Pagination pagination) {
@@ -104,16 +114,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return restaurantRepository.countFindByTypeID(id) ;
 	}
 
-//	@Override
-//	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs) {
-//		return restaurantRepository.deleteRestaurantImage(deletedImageIDs);
-//	}
-//
-//	@Override
-//	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
-//		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
-//	}
-//
+	@Override
+	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs) {
+		return restaurantRepository.deleteRestaurantImage(deletedImageIDs);
+	}
+
+	@Override
+	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
+		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
+	}
+
 
 
 }

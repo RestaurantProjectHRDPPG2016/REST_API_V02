@@ -92,34 +92,42 @@ public interface RestaurantRepository {
 //	
 //	Update 
 	
-	@Update("UPDATE rest_restaurant SET"
-			+ " c_id=#{sub_id},name=#{name},description=#{desc},delivery=#{delivery},"
-			+ "home=#{home},street=#{street},district=#{district},commune=#{commune},"
-			+ "latitude=#{latitude}, longitude=#{longitude}"
+	@Update("UPDATE rest_restaurant SET "
+			+ " c_id=#{sub_id}, "
+			+ " name=#{name}, "
+			+ " description=#{desc}, "
+			+ " delivery=#{delivery}, "
+			+ " home=#{home} ,"
+			+ " street=#{street}, "
+//			+"  province=#{province}, "
+//			+ " district=#{district}, "
+//			+ " commune=#{commune},"
+			+ " latitude=#{latitude},"
+			+ " longitude=#{longitude} "
 			+ "WHERE rest_id=#{id}")
     
 	@SelectKey(statement="SELECT last_value FROM rest_restaurant_rest_id_seq",
 	keyProperty="id", keyColumn="last_value", before=false, resultType=int.class)
     boolean updateMyObject_Annotation(Restaurant restaurant);
 	
-//	final String updateMenus  = "<script>"
-//			+ " <foreach  collection='menus' item='menu' separator=';'>"
-//			+ "		UPDATE rest_menu SET "
-//			+ "							name=#{menu.name}, "
-//			+ "							url=#{menu.url}"
-//			+ "							WHERE rest_id=#{my_id} "
-//			+ "	</foreach>"
-//			+ "</script>";
-	
-	
 	final String updateMenus  = "<script>"
-			+ " <foreach  collection='my_id' item='my_id' separator=';'>"
+			+ " <foreach  collection='menus' item='menu' separator=';'>"
 			+ "		UPDATE rest_menu SET "
-			+ "							name=#{my_id.name}, "
-			+ "							url=#{my_id.url}"
+			+ "							name=#{menu.name}, "
+			+ "							url=#{menu.url}"
 			+ "							WHERE rest_id=#{my_id} "
 			+ "	</foreach>"
 			+ "</script>";
+	
+	
+//	final String updateMenus  = "<script>"
+//			+ " <foreach  collection='my_id' item='my_id' separator=';'>"
+//			+ "		UPDATE rest_menu SET "
+//			+ "							name=#{my_id.name}, "
+//			+ "							url=#{my_id.url}"
+//			+ "							WHERE rest_id=#{my_id} "
+//			+ "	</foreach>"
+//			+ "</script>";
 
 	
 	@Update(updateMenus)
@@ -389,24 +397,24 @@ public interface RestaurantRepository {
 	
 	/** Delete Rest & Menu Image **/
 	
-//	@Delete(  "<script>"
-//			+ "		DELETE FROM rest_rest_image WHERE rest_image_id IN "
-//			+ "		<foreach collection='deletedImageIDs' item='id' open='(' separator=',' close=')'>"
-//			+ "			#{id}"
-//			+ "		</foreach>"
-//			+ "</script>"
-//	)
-//	public boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
-//	
-//	@Delete(  "<script>"
-//			+ "		DELETE FROM rest_menu WHERE menu_id IN "
-//			+ "		<foreach collection='deletedMenuIDs' item='id' open='(' separator=',' close=')'>"
-//			+ "			#{id}"
-//			+ "		</foreach>"
-//			+ "</script>"
-//	)
-//	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
-//	
+	@Delete(  "<script>"
+			+ "		DELETE FROM rest_rest_image WHERE rest_img_id IN "
+			+ "		<foreach collection='deletedImageIDs' item='id' open='(' separator=',' close=')'>"
+			+ "			#{id}"
+			+ "		</foreach>"
+			+ "</script>"
+	)
+	public boolean deleteRestaurantImage(@Param("deletedImageIDs") List<Integer> deletedImageIDs);
+	
+	@Delete(  "<script>"
+			+ "		DELETE FROM rest_menu WHERE menu_id IN "
+			+ "		<foreach collection='deletedMenuIDs' item='id' open='(' separator=',' close=')'>"
+			+ "			#{id}"
+			+ "		</foreach>"
+			+ "</script>"
+	)
+	public boolean deleteMenuImage(@Param("deletedMenuIDs") List<Integer> deletedMenuIDs);
+	
 	
 	/******************************/
 	

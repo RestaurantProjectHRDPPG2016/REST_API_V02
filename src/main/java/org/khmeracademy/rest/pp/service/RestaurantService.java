@@ -18,6 +18,6 @@ public interface RestaurantService {
 	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
 	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
 	ArrayList<Restaurant> findByRestId(int id);
-//	boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
-//	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
+	boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
+	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
 }
