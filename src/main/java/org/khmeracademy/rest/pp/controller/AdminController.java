@@ -27,7 +27,6 @@ public class AdminController {
 	public ResponseEntity<Map<String,Object>> findAll(Pagination pagination){
 		pagination.setTotalCount(mainCategoryService.totalCount());
 		ArrayList<MainCategory> mainCategory = null;
-		System.out.println("LIMIT ==> " + pagination.getLimit());
 		if(pagination.getLimit()==10){
 			mainCategory = mainCategoryService.findAll();
 		}else{

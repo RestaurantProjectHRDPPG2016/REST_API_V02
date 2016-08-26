@@ -14,10 +14,12 @@ public interface RestaurantService {
 	long CountfindAll(RestaurantFilter filter);
 	long countFindByCatID(int id);
 	long countFindByTypeID(int id);
+	long countFindByAddToFavorite(int id);
 	ArrayList<Restaurant> findAll(String get​province,RestaurantFilter filter, Pagination pagination);
 	ArrayList<Restaurant> findByTypeId(int TypeId,Pagination pagination);
 	ArrayList<Restaurant> findByCategoryId(int CategoryId,Pagination pagination);
 	ArrayList<Restaurant> findByRestId(int id);
+	ArrayList<Restaurant> findByAddToFavorite(int id,Pagination pagination);
 	boolean deleteRestaurantImage(List<Integer> deletedImageIDs);
 	public boolean deleteMenuImage(List<Integer> deletedMenuIDs);
 }

@@ -392,8 +392,60 @@ public interface RestaurantRepository {
 			+ " ON  Ca.rest_type_id=T.rest_type_id"
 			+ " WHERE T.rest_type_id "
 			+" =#{id} ")
-	public long countFindByTypeID(int id);
+	public long countFindAddToFavorite(int id);
+//	**************************
 	
+//	Find Restaurant By AddToFavorite
+	@Select("select "
+			+ "R.rest_id, "
+			+ "R.c_id, "
+			+ "R.name, "
+			+ "R.description, "
+			+ "R.delivery, "
+			+ "R.home, "
+			+ "R.street, "
+			+ "R.province, "
+			+ "R.district, "
+			+ "R.commune, "
+			+ "R.create_date, "
+			+ " Province.khmer_name as location_province, "
+			+ " District.khmer_name as location_district, "
+			+ " Commune.khmer_name as location_commune "
+			+ " from rest_save S "
+			+ " left join rest_member M on S.m_id=M.m_id "
+			+ " left join rest_restaurant R on R.rest_id = S.rest_id"
+			+ " INNER JOIN rest_locations Province ON Province.id = R.province::INTEGER"
+			+ " INNER JOIN rest_locations District ON District.id = R.district::INTEGER "
+			+ " INNER JOIN rest_locations Commune ON Commune.id = R.commune::INTEGER "
+			+ " where S.m_id=#{id}"
+			+" ORDER BY R.rest_id DESC"
+			+ "	LIMIT "
+			+ "		#{pagination.limit} "
+			+ "	OFFSET "
+			+ "		#{pagination.offset}")
+	@Results({
+		@Result(property="id",column="rest_id"),
+		@Result(property="sub_id",column="c_id"),
+		@Result(property="name",column="name"),
+		@Result(property="desc",column="description"),
+		@Result(property="delivery",column="delivery"),
+		@Result(property="home",column="home"),
+		@Result(property="street",column="street"),
+		@Result(property="province",column="location_province"),
+		@Result(property="district",column="location_district"),
+		@Result(property="commune",column="location_commune"),
+		@Result(property="create_date",column="create_date"),
+		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
+		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+	})
+	ArrayList<Restaurant> findByAddToFavorite(@Param("id") int id,@Param("pagination") Pagination pagination);
+	@Select("SELECT COUNT(*) "
+			+ " from rest_save S "
+			+ " left join rest_member M on S.m_id=M.m_id "
+			+ " left join rest_restaurant R on R.rest_id = S.rest_id"
+			+ " where S.m_id=#{id}")
+	public long countFindByTypeID(int id);
 	
 	/** Delete Rest & Menu Image **/
 	
@@ -421,7 +473,6 @@ public interface RestaurantRepository {
 	class RestaurantProvider{
 		public static String findAll(Map<String, Object> param) {
 			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
-			System.out.println(filter);
 			String sql = new SQL() {
 				{
 					SELECT(""
@@ -466,7 +517,6 @@ public interface RestaurantRepository {
 
 		public static String count(Map<String, Object> param) {
 			RestaurantFilter filter = (RestaurantFilter) param.get("filter");
-			System.out.println(filter);
 			return new SQL() {
 				{
 					SELECT("COUNT(Rest.rest_id)");

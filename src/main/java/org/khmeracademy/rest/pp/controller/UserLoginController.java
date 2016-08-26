@@ -34,7 +34,6 @@ public class UserLoginController {
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public User loadUserByEmail(@RequestParam("email")String email){
 		User userlogin = userLoginService.loadUserByEmail(email);
-		System.out.println("==> Login User: " + userlogin);
 		return userlogin;
 	}
 	/*@RequestMapping(value="/login", method=RequestMethod.POST)

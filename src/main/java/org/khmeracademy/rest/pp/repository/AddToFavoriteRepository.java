@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AddToFavoriteRepository {
 	@Delete("DELETE FROM rest_save WHERE rest_id=#{id}")
 	boolean remove(int id);
-	@Insert("INSERT INTO rest_save (rest_id,m_id) VALUES (#{r_id},#{m_d}")
+	@Insert("INSERT INTO rest_save (m_id,rest_id) VALUES (#{m_id},#{r_id})")
 	 boolean save(AddToFavorite addToFavorite);
 }

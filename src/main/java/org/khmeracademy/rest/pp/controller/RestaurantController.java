@@ -41,12 +41,8 @@ public class RestaurantController {
 	@RequestMapping(value = "/restaurant", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> saveRestaurant(UploadRest uploadRest, HttpServletRequest request) {
 
-		System.out.println(uploadRest.getMenus().size());
-		System.out.println(uploadRest.getImage().size());
-
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			System.out.println(uploadRest);
 			RestImgFile restImage = fileUploadService.upload(uploadRest.getImage(), "Restaurant_Image", request);
 			List<Menu> menus = new ArrayList<>();
 
@@ -143,8 +139,6 @@ public class RestaurantController {
 			if(uploadRest.getImage() != null && !uploadRest.getImage().isEmpty()){
 				RestImgFile restImage = fileUploadService.upload(uploadRest.getImage(), "Restaurant_Image", request);
 				for(String str1 : restImage.getNames()){
-					System.out.println("Upload Rest Image");
-					System.out.println(restImage.getServerPath()+restImage.getProjectPath() + str1);
 					Images img = new Images();
 					img.setUrl(restImage.getProjectPath() + str1);
 					images.add(img);
@@ -227,8 +221,7 @@ public class RestaurantController {
 	//
 	public ResponseEntity<Map<String, Object>> findRestaurant(@ApiIgnore RestaurantFilter filter,
 			@ApiIgnore Pagination pagination) {
-		System.out.println(filter.getProvince());
-		System.out.println(filter);
+
 		// Pagination pagination = new Pagination();
 		// pagination.setPage(page);
 		// pagination.setLimit(limit);
@@ -236,7 +229,6 @@ public class RestaurantController {
 		// restaurantService.
 
 		ArrayList<Restaurant> Restaurant = restaurantService.findAll(filter.getProvince(), filter, pagination);
-		System.out.println("Rest " + Restaurant.size());
 		Map<String, Object> map = new HashMap<>();
 		map.put("CODE", "200");
 		map.put("MESSAGE", "RECORDS FOUND!");
@@ -289,4 +281,18 @@ public class RestaurantController {
 		map.put("Pagination", pagination);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
+//	*************FIND By AddToFavorite************
+	@RequestMapping(value = "/restaurant/user/save/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> findByAddToFavorite(@PathVariable("id") int id, Pagination pagination) {
+		pagination.setTotalCount(restaurantService.countFindByAddToFavorite(id));
+		ArrayList<Restaurant> Restaurant = restaurantService.findByAddToFavorite(id, pagination);
+		Map<String, Object> map = new HashMap<>();
+		map.put("CODE", "200");
+		map.put("MESSAGE", "RECORDS FOUND!");
+		map.put("DATA", Restaurant);
+		map.put("Pagination", pagination);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
+	
 }

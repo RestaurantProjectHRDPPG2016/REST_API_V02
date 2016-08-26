@@ -34,14 +34,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 	public int save(Restaurant restaurant) {
 		restaurantRepository.insertMyObject_Annotation(restaurant);
 		
-		System.out.println(restaurant.getId());
-		
 		
 		//System.out.println(restaurant.getTel().get(0).getTel() + "");
 		try{
 			restaurantRepository.insertTelephone(restaurant.getTelephone(), restaurant.getId());
 			restaurantRepository.insertMenu(restaurant.getMenus(), restaurant.getId());
-
 			restaurantRepository.insertImage(restaurant.getImages(), restaurant.getId());
 		}catch(Exception e){
 			e.printStackTrace();
@@ -54,7 +51,6 @@ public class RestaurantServiceImpl implements RestaurantService {
 		
 		try{
 			if (restaurantRepository.updateMyObject_Annotation(restaurant)){
-				System.out.println(restaurant.getId());
 				
 				if (restaurant.getImages() != null && !restaurant.getImages().isEmpty()){
 					restaurantRepository.insertImage(restaurant.getImages(), restaurant.getId());
@@ -122,6 +118,17 @@ public class RestaurantServiceImpl implements RestaurantService {
 	@Override
 	public boolean deleteMenuImage(List<Integer> deletedMenuIDs) {
 		return restaurantRepository.deleteMenuImage(deletedMenuIDs);
+	}
+
+
+	@Override
+	public ArrayList<Restaurant> findByAddToFavorite(int id, Pagination pagination) {
+		return restaurantRepository.findByAddToFavorite(id, pagination);
+	}
+
+	@Override
+	public long countFindByAddToFavorite(int id) {
+		return restaurantRepository.countFindAddToFavorite(id);
 	}
 
 

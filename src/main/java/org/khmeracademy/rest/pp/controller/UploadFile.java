@@ -82,7 +82,6 @@ public class UploadFile {
 				stream.write(bytes);
 				stream.close();
 
-				System.out.println(serverFile.getAbsolutePath());
 //				System.out.println("You are successfully uploaded file " + fileName);
 				pathAndFileName+="/"+fileName;
 				
