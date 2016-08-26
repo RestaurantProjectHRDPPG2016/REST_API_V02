@@ -98,6 +98,4 @@ public class AdminController {
 		}
 		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
 	}
-	
-
 }
