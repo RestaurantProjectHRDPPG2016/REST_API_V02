@@ -31,7 +31,9 @@ public interface UserLoginRepository {
 	
 	
 	
-	@Select("SELECT * FROM rest_role WHERE role_id=#{role_id}")
+	@Select("SELECT * FROM rest_role r INNER JOIN rest_user_detail rd  "
+			+ "ON r.role_id = rd.role_id "
+			+ "WHERE rd.m_id=#{m_id}")
 	@Results({
 			@Result(property="role_id",column="role_id"),
 			@Result(property="role_name",column="role_name")
