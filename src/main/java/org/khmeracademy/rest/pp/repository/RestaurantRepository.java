@@ -435,6 +435,7 @@ public interface RestaurantRepository {
 		@Result(property="district",column="location_district"),
 		@Result(property="commune",column="location_commune"),
 		@Result(property="create_date",column="create_date"),
+		@Result(property="",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
