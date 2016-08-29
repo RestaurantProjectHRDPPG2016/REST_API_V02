@@ -58,7 +58,6 @@ public class RestaurantController {
 				img.setUrl(menuImage.getProjectPath() + str1);
 				images.add(img);
 			}
-
 			List<Telephone> tels = new ArrayList<>();
 			for (String tel : uploadRest.getTelephones()) {
 				Telephone telephone = new Telephone(0, 0, tel);

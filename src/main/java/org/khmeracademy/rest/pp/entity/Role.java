@@ -1,7 +1,6 @@
 package org.khmeracademy.rest.pp.entity;
 
 public class Role{
-
 	private int role_id;
 	private String role_name;
 	
@@ -17,9 +16,4 @@ public class Role{
 	public void setRole_name(String role_name) {
 		this.role_name = role_name;
 	}
-	
-	
-	
-	
-
 }
