@@ -8,6 +8,7 @@ import org.khmeracademy.rest.pp.service.AddToFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,5 +36,25 @@ public class AddToFavoriteController {
 		}
 		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/addtofavorite/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Map<String, Object>> delelteAddToFavorite(@PathVariable("id") int id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean status = addToFavoriteService.remove(id);
+		try {
+			if (status) {
+				map.put("MESSAGE", "User has been deleted");
+				map.put("STATUS", true);
+			} else {
+				map.put("MESSAGE", "User has not been deleted");
+				map.put("STATUS", false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("STATUS", false);
+		}
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+	}
+
 	
 }
