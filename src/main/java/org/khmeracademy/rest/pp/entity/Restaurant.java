@@ -20,6 +20,7 @@ public class Restaurant {
 	private List<Telephone> telephone;
 	private List<Menu> menus;
 	private List<Images> images;
+	private int views;
 	
 	public Restaurant(){
 		
@@ -28,7 +29,7 @@ public class Restaurant {
 
 	public Restaurant(int id, int sub_id, String name, String desc, String delivery, String home, String street,
 			String type, String province, String district, String commune, String latitude, String longitude,
-			String create_date, List<Telephone> telephone, List<Menu> menus, List<Images> images) {
+			String create_date, List<Telephone> telephone, List<Menu> menus, List<Images> images,int views) {
 		super();
 		this.id = id;
 		this.sub_id = sub_id;
@@ -47,6 +48,16 @@ public class Restaurant {
 		this.telephone = telephone;
 		this.menus = menus;
 		this.images = images;
+	}
+
+
+	public int getViews() {
+		return views;
+	}
+
+
+	public void setViews(int views) {
+		this.views = views;
 	}
 
 

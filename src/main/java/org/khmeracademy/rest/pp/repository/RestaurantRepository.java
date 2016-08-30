@@ -202,7 +202,8 @@ public interface RestaurantRepository {
 		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
+		@Result(property="views", column="views")
 	})
 //	ArrayList<Restaurant> findAll(@Param("get​province") String get​province ,@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
 	ArrayList<Restaurant> findAll(@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
@@ -256,7 +257,8 @@ public interface RestaurantRepository {
 			+ "Rest.longitude, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
-			+ " Commune.khmer_name as location_commune "
+			+ " Commune.khmer_name as location_commune, "
+			+ " Rest.views "
 			+ " FROM rest_restaurant Rest "
 			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
@@ -278,7 +280,8 @@ public interface RestaurantRepository {
 		@Result(property="longitude",column="longitude"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
+		@Result(property="views",column="views")
 	})
 	ArrayList<Restaurant> findByRestId(int id);
 	
@@ -298,6 +301,7 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
+			+ "Rest.views, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -326,7 +330,8 @@ public interface RestaurantRepository {
 		@Result(property="create_date",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
+		@Result(property="views",column="views")
 	})
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -350,6 +355,7 @@ public interface RestaurantRepository {
 			+ "Rest.district, "
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
+			+ "Rest.views, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -382,7 +388,8 @@ public interface RestaurantRepository {
 		@Result(property="create_date",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
+		@Result(property="views",column="views")
 	})
 	ArrayList<Restaurant> findByTypeId(@Param("id") int id,@Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -408,6 +415,7 @@ public interface RestaurantRepository {
 			+ "R.district, "
 			+ "R.commune, "
 			+ "R.create_date, "
+			+ "R.views, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -438,7 +446,8 @@ public interface RestaurantRepository {
 		@Result(property="",column="create_date"),
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
-		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone"))
+		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
+		@Result(property="views",column="views")
 	})
 	ArrayList<Restaurant> findByAddToFavorite(@Param("id") int id,@Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -488,6 +497,7 @@ public interface RestaurantRepository {
 							+ "Rest.district, "
 							+ "Rest.commune, "
 							+ "Rest.create_date, "
+							+ "Rest.views, "
 							+ "Province.khmer_name as location_province, "
 							+ "District.khmer_name as location_district, "
 							+ "Commune.khmer_name as location_commune ");
@@ -496,7 +506,7 @@ public interface RestaurantRepository {
 					INNER_JOIN("rest_locations District ON District.id = Rest.district::INTEGER");
 					INNER_JOIN("rest_locations Commune ON Commune.id = Rest.commune::INTEGER");
 					if (filter.getName() != null && !"".equals(filter.getName())) {
-						WHERE("Rest.name LIKE '%' ||  #{filter.name} || '%'");
+						WHERE("lower(Rest.name) LIKE lower('%' ||  #{filter.name} || '%')");
 					}
 					if (filter.getC_id() != null && !"".equals(filter.getC_id())) {
 						WHERE("Rest.c_id::TEXT LIKE '%' ||  #{filter.c_id} || '%'");

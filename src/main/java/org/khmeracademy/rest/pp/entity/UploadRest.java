@@ -25,6 +25,7 @@ public class UploadRest {
 	private List<Integer> deletedImageIds;
 	private List<Integer> deletedMenuIds;
 	private List<String> telephones;
+	private int views;
 	
 	public List<String> getTelephones() {
 		return telephones;
@@ -35,7 +36,7 @@ public class UploadRest {
 	public UploadRest(){
 		
 	}
-	public UploadRest(int id,String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
+	public UploadRest(int views,int id,String create_date,String longitude,String latitude,String province,String name, String description, String delivery, String district, String commune,
 			String home, String street, int type, List<Telephone> telephone, List<MultipartFile> menus,
 			List<MultipartFile> image,List<Integer> deleteImageIds,List<Integer> deleteMenuIds) {
 		super();
@@ -56,6 +57,12 @@ public class UploadRest {
 		this.deletedMenuIds = deletedImageIds;
 	}
 	
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
 	public String getProvince() {
 		return province;
 	}
