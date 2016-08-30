@@ -39,9 +39,6 @@ public interface UserLoginRepository {
 			@Result(property="role_name",column="role_name")
 	})
 	public List<Role> findUserByUserID(@Param("role_id") int role_id);
-	
-	
-	
 	/*
 	@Insert("INSERT INTO rest_member"
 			+ "( name, email, password, status, role)"
