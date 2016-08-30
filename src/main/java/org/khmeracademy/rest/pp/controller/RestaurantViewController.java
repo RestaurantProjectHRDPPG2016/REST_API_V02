@@ -21,11 +21,11 @@ public class RestaurantViewController {
 	@Autowired
 	private RestaurantViewService restaurantViewService;
 	
-	@RequestMapping(value="/restauant/views" , method = RequestMethod.PUT)
-	public ResponseEntity<Map<String , Object>> save(@PathVariable("id") int id){
+	@RequestMapping(value="/restauant/views/{id}" , method = RequestMethod.PUT)
+	public ResponseEntity<Map<String , Object>> update(@PathVariable("id") int id){
 		Map<String , Object> map = new HashMap<String , Object>();
 		try{
-			if(restaurantViewService.save(id)){
+			if(restaurantViewService.update(id)){
 				map.put("MESSAGE", "View has been inserted.");
 				map.put("STATUS", true);
 			}else{
@@ -39,11 +39,12 @@ public class RestaurantViewController {
 		}
 		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
 	}
+	
 	@RequestMapping(value="/restauant/views/{id}" , method = RequestMethod.GET)
 	public ResponseEntity<Map<String , Object>> findRestaurantViewByRestId(@PathVariable("id") int id){
 		Map<String , Object> map = new HashMap<String , Object>();
 		try{
-			ArrayList<RestaurantView> restaurantViews = restaurantViewService.findViewByRestId(id);
+			int restaurantViews = restaurantViewService.findViewByRestId(id);
 			map.put("CODE", "200");
 			map.put("MESSAGE", "RECORDS FOUND!");
 			map.put("DATA", restaurantViews);

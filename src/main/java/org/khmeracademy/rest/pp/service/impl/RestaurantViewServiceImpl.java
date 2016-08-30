@@ -13,11 +13,12 @@ public class RestaurantViewServiceImpl implements RestaurantViewService{
 	private RestaurantViewRepository restaurantViewRepository;
 
 	@Override
-	public boolean save(int id) {
+	public boolean update(int id) {
 		return restaurantViewRepository.UpdateRestView(id);
 	}
 	@Override
-	public ArrayList<RestaurantView> findViewByRestId(int id){
+	public int findViewByRestId(int id){
 		return restaurantViewRepository.getRestaurantViewByrestId(id);
 	}
+
 }
