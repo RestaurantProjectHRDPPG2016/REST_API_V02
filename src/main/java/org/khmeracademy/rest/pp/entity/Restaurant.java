@@ -21,6 +21,7 @@ public class Restaurant {
 	private List<Menu> menus;
 	private List<Images> images;
 	private int views;
+	private int likes;
 	
 	public Restaurant(){
 		
@@ -29,7 +30,7 @@ public class Restaurant {
 
 	public Restaurant(int id, int sub_id, String name, String desc, String delivery, String home, String street,
 			String type, String province, String district, String commune, String latitude, String longitude,
-			String create_date, List<Telephone> telephone, List<Menu> menus, List<Images> images,int views) {
+			String create_date, List<Telephone> telephone, List<Menu> menus, List<Images> images,int views,int likes) {
 		super();
 		this.id = id;
 		this.sub_id = sub_id;
@@ -48,6 +49,8 @@ public class Restaurant {
 		this.telephone = telephone;
 		this.menus = menus;
 		this.images = images;
+		this.views = views;
+		this.likes = likes;
 	}
 
 
@@ -211,6 +214,16 @@ public class Restaurant {
 				+ getCreate_date() + ", getTelephone()=" + getTelephone() + ", getMenus()=" + getMenus()
 				+ ", getImages()=" + getImages() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ ", toString()=" + super.toString() + "]";
+	}
+
+
+	public int getLikes() {
+		return likes;
+	}
+
+
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 	
 	

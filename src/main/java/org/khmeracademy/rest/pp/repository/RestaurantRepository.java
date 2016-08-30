@@ -203,7 +203,8 @@ public interface RestaurantRepository {
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
-		@Result(property="views", column="views")
+		@Result(property="views", column="views"),
+		@Result(property="likes", column="likes")
 	})
 //	ArrayList<Restaurant> findAll(@Param("get​province") String get​province ,@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
 	ArrayList<Restaurant> findAll(@Param("filter") RestaurantFilter filter, @Param("pagination") Pagination pagination);
@@ -258,7 +259,8 @@ public interface RestaurantRepository {
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune, "
-			+ " Rest.views "
+			+ " Rest.views, "
+			+ " Rest.likes "
 			+ " FROM rest_restaurant Rest "
 			+ " INNER JOIN rest_locations Province ON Province.id = Rest.province::INTEGER "
 			+ " INNER JOIN rest_locations District ON District.id = Rest.district::INTEGER "
@@ -281,7 +283,8 @@ public interface RestaurantRepository {
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
-		@Result(property="views",column="views")
+		@Result(property="views",column="views"),
+		@Result(property="likes",column="likes")
 	})
 	ArrayList<Restaurant> findByRestId(int id);
 	
@@ -302,6 +305,7 @@ public interface RestaurantRepository {
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
 			+ "Rest.views, "
+			+ "Rest.likes, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -331,7 +335,8 @@ public interface RestaurantRepository {
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
-		@Result(property="views",column="views")
+		@Result(property="views",column="views"),
+		@Result(property="likes",column="likes")
 	})
 	ArrayList<Restaurant> findByCategoryId(@Param("id")int id, @Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -356,6 +361,7 @@ public interface RestaurantRepository {
 			+ "Rest.commune, "
 			+ "Rest.create_date, "
 			+ "Rest.views, "
+			+ "Rest.likes, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -389,7 +395,8 @@ public interface RestaurantRepository {
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
-		@Result(property="views",column="views")
+		@Result(property="views",column="views"),
+		@Result(property="likes",column="likes")
 	})
 	ArrayList<Restaurant> findByTypeId(@Param("id") int id,@Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -416,6 +423,7 @@ public interface RestaurantRepository {
 			+ "R.commune, "
 			+ "R.create_date, "
 			+ "R.views, "
+			+ "R.likes, "
 			+ " Province.khmer_name as location_province, "
 			+ " District.khmer_name as location_district, "
 			+ " Commune.khmer_name as location_commune "
@@ -447,7 +455,8 @@ public interface RestaurantRepository {
 		@Result(property="images", column="rest_id", many = @Many(select = "findImage")),
 		@Result(property="menus", column="rest_id", many = @Many(select = "findMenu")),
 		@Result(property="telephone", column="rest_id", many=@Many(select = "findTelephone")),
-		@Result(property="views",column="views")
+		@Result(property="views",column="views"),
+		@Result(property="likes",column="likes")
 	})
 	ArrayList<Restaurant> findByAddToFavorite(@Param("id") int id,@Param("pagination") Pagination pagination);
 	@Select("SELECT COUNT(*) "
@@ -498,6 +507,7 @@ public interface RestaurantRepository {
 							+ "Rest.commune, "
 							+ "Rest.create_date, "
 							+ "Rest.views, "
+							+ "Rest.likes, "
 							+ "Province.khmer_name as location_province, "
 							+ "District.khmer_name as location_district, "
 							+ "Commune.khmer_name as location_commune ");
