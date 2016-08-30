@@ -1,5 +1,6 @@
 package org.khmeracademy.rest.pp.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +9,14 @@ import org.khmeracademy.rest.pp.service.UserLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import ch.qos.logback.access.pattern.RequestMethodConverter;
 
 @RestController
 public class UserLoginController {
@@ -36,7 +41,48 @@ public class UserLoginController {
 		User userlogin = userLoginService.loadUserByEmail(email);
 		return userlogin;
 	}
-	/*@RequestMapping(value="/login", method=RequestMethod.POST)
+	@RequestMapping(value="/memberAdmin", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> allAdmin(){
+		ArrayList<User> admin = userLoginService.findMemberAdmin();
+		Map<String, Object> map = new HashMap<>();
+		map.put("DATA", userLoginService.findMemberAdmin());
+		map.put("MESSAGE", "ALL MEMBER HAVE BEEN FOUND !");
+		map.put("CODE", 200);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/memberUser", method=RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> allUser(){
+		ArrayList<User> user = userLoginService.findMemberUser();
+		Map<String, Object> map = new HashMap<>();
+		map.put("DATA", userLoginService.findMemberUser());
+		map.put("MESSAGE", "ALL USER HAVE BEEN FOUND !");
+		map.put("CODE", 200);
+		return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	}
+	@RequestMapping(value="/memberUser",  method=RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> addMember(@RequestBody User user){
+		Map<String, Object> map = new HashMap<>();
+	
+		try{
+			if(userLoginService.save(user)){
+				map.put("MESSAGE", "Member has been inserted");
+				map.put("STATUS", true);
+			}else{
+				map.put("MESSAGE", "User has not been inserted.");
+				map.put("STATUS", false);
+			}
+		}catch(Exception e){
+			map.put("MESSAGE", "ERROR!");
+			map.put("STATUS", false);
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Map<String,Object>>(map , HttpStatus.OK);
+	}
+	
+	
+	/*
+	 * @RequestMapping(value="/login", method=RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> save(@RequestBody User user){
 		Map<String, Object> map = new HashMap<>();
 		try{

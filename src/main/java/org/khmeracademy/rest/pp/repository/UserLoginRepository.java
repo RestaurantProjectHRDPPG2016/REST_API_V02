@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 import org.khmeracademy.rest.pp.entity.Role;
 import org.khmeracademy.rest.pp.entity.User;
@@ -39,19 +40,79 @@ public interface UserLoginRepository {
 			@Result(property="role_name",column="role_name")
 	})
 	public List<Role> findUserByUserID(@Param("role_id") int role_id);
-	/*
-	@Insert("INSERT INTO rest_member"
-			+ "( name, email, password, status, role)"
+	
+	@Select("SELECT "
+			+ "M.m_id,"
+			+ "M.name, "
+			+ "M.email, "
+			+ "M.gender, "
+			+ "M.phone, "
+			+ "M.address, "
+			+ "M.status, "
+			+ "U.role_id FROM "
+			+ "rest_user_detail U "
+			+ "INNER JOIN rest_member M "
+			+ "ON U.m_id = M.m_id "
+			+ "INNER JOIN rest_role R "
+			+ "ON U.role_id = R.role_id "
+			+ "WHERE U.role_id='1' AND M.status='T'")
+	@Results({
+		@Result(property="user_id", column="m_id"),
+		@Result(property="username", column="name"),
+		@Result(property="email", column="email"),
+		@Result(property="gender", column="gender"),
+		@Result(property="phone", column="phone"),
+		@Result(property="address", column="address"),
+		@Result(property="status", column="status")
+	})
+	ArrayList<User> findMemberAdmin();
+	
+	
+	@Select("SELECT "
+			+ "M.m_id,"
+			+ "M.name, "
+			+ "M.email, "
+			+ "M.gender, "
+			+ "M.phone, "
+			+ "M.address, "
+			+ "M.status, "
+			+ "U.role_id FROM "
+			+ "rest_user_detail U "
+			+ "INNER JOIN rest_member M "
+			+ "ON U.m_id = M.m_id "
+			+ "INNER JOIN rest_role R "
+			+ "ON U.role_id = R.role_id "
+			+ "WHERE U.role_id='2' AND M.status='T'")
+	@Results({
+		@Result(property="user_id", column="m_id"),
+		@Result(property="username", column="name"),
+		@Result(property="email", column="email"),
+		@Result(property="gender", column="gender"),
+		@Result(property="phone", column="phone"),
+		@Result(property="address", column="address"),
+		@Result(property="status", column="status")
+	})
+	ArrayList<User> findMemberUser();
+	
+	
+	
+	
+	@Insert("INSERT INTO rest_member "
+			+ "(name,gender,email,password,phone,address,status) "
 			+ "VALUES"
-			+ "(#{name}, #{email}, #{password}, #{status}, #{role})")
-	boolean save(User user);*/
+			+ " (#{username},#{gender},#{email},#{password},#{phone},#{address},#{status})") 
+    			
+	@SelectKey(statement="SELECT last_value FROM rest_member_m_id_seq ", keyProperty="user_id", keyColumn="last_value", before=false, resultType=int.class)
+    int insertMember(User users);
+
+	final String User  = "<script>"
+			+ "		INSERT INTO rest_user_detail (role_id, m_id)"
+			+ "		VALUES "
+			+ "			<foreach  collection='roles' item='role' separator=','>"
+			+ "				(#{role.role_id}, #{m_id})"
+			+ "			</foreach>"
+			+ "</script>";
+	@Insert(User)
+	boolean saveMemberDetails(@Param("roles") List<Role> roles,@Param("m_id") int m_id);
 	
-	/*@Delete("DELETE FROM rest_member WHERE m_id=#{m_id}")
-	boolean remove(int id);
-	
-	@Update("UPDATE rest_member SET"
-			+ "name=#{name}, email=#{email}, password=#{password},"
-			+ " status=#{status}, role=#{role} WHERE m_id=#{m_id}")
-	boolean update(User user);
-	*/
 }
