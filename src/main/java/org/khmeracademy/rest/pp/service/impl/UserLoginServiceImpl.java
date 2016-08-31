@@ -47,7 +47,8 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Transactional
 	public boolean save(User user) {
 		
-		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+//		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+		user.setPassword(user.getPassword());
 		
 		//TODO: 1. INSERT INTO Member Tables
 		userLoginRepository.insertMember(user);
